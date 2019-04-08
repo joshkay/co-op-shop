@@ -1,0 +1,19 @@
+{
+  "name": "co-op-shop",
+  "version": "1.0.0",
+  "description": "A shopping list application with real time updates across devices and users.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshkay/co-op-shop.git"
+  },
+  "author": "Josh Kay",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshkay/co-op-shop/issues"
+  },
+  "homepage": "https://github.com/joshkay/co-op-shop#readme"
+}
