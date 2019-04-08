@@ -7,7 +7,8 @@
     "start": "tsc && node build/server.js",
     "dev": "node --inspect=5858 -r ts-node/register src/server.ts",
     "build": "tsc",
-    "test": "cypress open"
+    "test": "cypress open",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
