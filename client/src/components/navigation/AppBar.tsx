@@ -3,7 +3,7 @@ import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles';
 import MuiAppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import NavbarLinkButton from './NavbarLinkButton';
 
 const styles = createStyles({
   root: {
@@ -32,8 +32,8 @@ class AppBar extends Component<Props>
             <Typography variant="h6" color="inherit" className={classes.grow}>
               Co-Op Shop
             </Typography>
-            <Button color="inherit">Sign In</Button>
-            <Button color="secondary">Sign Up</Button>
+            <NavbarLinkButton to="/login" color="inherit">Sign In</NavbarLinkButton>
+            <NavbarLinkButton to="/join" color="secondary">Sign Up</NavbarLinkButton>
           </Toolbar>
         </MuiAppBar>
       </nav>
