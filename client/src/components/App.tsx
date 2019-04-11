@@ -4,10 +4,12 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Provider } from 'react-redux';
 
-import AppBar from './navigation/AppBar';
+import ProtectedRoute from '../containers/ProtectedRoute';
+import UserStatusAppBar from '../containers/UserStatusAppBar';
 import LandingPage from '../pages/LandingPage';
 import SignInPage from '../pages/SignInPage';
 import SignUpPage from '../pages/SignUpPage';
+import NotFoundPage from '../pages/NotFoundPage';
 
 import { configureStore } from '../store';
 
@@ -42,11 +44,14 @@ class App extends Component
         <CssBaseline />
         <BrowserRouter>
           <Provider store={store}>
-            <AppBar />
+            <UserStatusAppBar />
             <Switch>
               <Route exact path='/' component={LandingPage} />
-              <Route exact path='/login' component={SignInPage} />
-              <Route exact path='/join' component={SignUpPage} />
+              <ProtectedRoute exact path='/login' component={SignInPage}
+                allow='unauthenticated' />
+              <ProtectedRoute exact path='/join' component={SignUpPage}
+                allow='unauthenticated' />
+              <Route component={NotFoundPage} />
             </Switch>
           </Provider>
         </BrowserRouter>

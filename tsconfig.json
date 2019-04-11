@@ -1,20 +1,26 @@
 {
-    "compilerOptions": {
-        "module": "commonJS",
-        "target": "es5",
-        "noImplicitAny": false,
-        "sourceMap": true,
-        "outDir": "build",
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true
-    },
-    "exclude": [
-        "node_modules",
-        "client",
-        "**/*.spec.ts",
-        "**/*.test.ts"
-    ],
-    "include": [
-        "src/**/*.ts"
-    ]
+   "compilerOptions": {
+      "lib": [
+         "es5",
+         "es6"
+      ],
+      "target": "es5",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "outDir": "./build",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "sourceMap": true,
+      "allowSyntheticDefaultImports": false,
+      "esModuleInterop": false
+   },
+   "exclude": [
+      "node_modules",
+      "client",
+      "**/*.spec.ts",
+      "**/*.test.ts"
+  ],
+  "include": [
+      "src/**/*.ts"
+  ]
 }

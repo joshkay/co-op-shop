@@ -11,6 +11,7 @@ import { loginUser } from '../store/users/actions';
 
 interface Props
 {
+  error: string | null,
   loginUser(email: string, password: string): void;
 }
 

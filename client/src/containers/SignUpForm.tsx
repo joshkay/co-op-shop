@@ -3,22 +3,30 @@ import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 import UserForm from '../components/accounts/UserForm';
 import TextField from '../components/forms/TextField';
 import { required, isEmail, doPasswordsMatch } from '../forms/validations';
+import { connect } from 'react-redux';
+import { AppState } from '../store';
+import { registerUser } from '../store/users/actions';
 
 interface Props
 {
-
+  error: string | null,
+  registerUser(email: string, password: string): void;
 }
 
-class SignUpForm extends Component<InjectedFormProps<Props>> 
+type AllProps = Props & InjectedFormProps<{}, Props>;
+
+class SignUpForm extends Component<AllProps> 
 {
-  constructor(props: InjectedFormProps<Props>)
+  constructor(props: AllProps)
   {
     super(props);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(values: any)
   {
-    console.log(values);
+    this.props.registerUser(values.email, values.password);
   }
 
   render()
@@ -27,10 +35,10 @@ class SignUpForm extends Component<InjectedFormProps<Props>>
 
     return (
       <UserForm action="Sign up" canSubmit={!submitting} handleSubmit={handleSubmit(this.handleSubmit)}>
-        <Field name="email" id="email" autoFocus
-          component={TextField} label="Email Address" fullWidth 
+        <Field name="email" id="email" autoFocus autoComplete='nope'
+          component={TextField} label="Email Address" fullWidth
           validate={[required, isEmail]} />
-        <Field name="password" type="password" id="password"
+        <Field name="password" type="password" id="password" autoComplete='new-password'
           component={TextField} label="Password" fullWidth
           validate={[required, doPasswordsMatch]} />
         <Field name="passwordConfirmation" type="password" id="passwordConfirmation"
@@ -40,6 +48,18 @@ class SignUpForm extends Component<InjectedFormProps<Props>>
   }
 }
 
-export default reduxForm<Props>({
+const reduxFormSignUp = reduxForm<{}, Props>({
   form: 'SignUp'
 })(SignUpForm);
+
+const mapStateToProps = (state: AppState) =>
+{
+  return {
+    error: state.user.error
+  }
+}
+
+export default connect(
+  mapStateToProps, 
+  { registerUser }  
+)(reduxFormSignUp);
