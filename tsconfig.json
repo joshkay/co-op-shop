@@ -1,20 +1,60 @@
 {
-    "compilerOptions": {
-        "module": "commonJS",
-        "target": "es5",
-        "noImplicitAny": false,
-        "sourceMap": true,
-        "outDir": "build",
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true
-    },
-    "exclude": [
-        "node_modules",
-        "client",
-        "**/*.spec.ts",
-        "**/*.test.ts"
-    ],
-    "include": [
-        "src/**/*.ts"
-    ]
-}
+   "compilerOptions": {
+     "target": "es5",
+     "lib": [
+       "es5",
+       "es6",
+       "dom",
+       "dom.iterable",
+       "esnext"
+     ],
+     "allowJs": true,
+     "skipLibCheck": true,
+     "esModuleInterop": false,
+     "allowSyntheticDefaultImports": true,
+     "experimentalDecorators": true,
+     //"strict": true,
+     "forceConsistentCasingInFileNames": true,
+     "module": "commonjs",
+     "outDir": "./build",
+     "moduleResolution": "node",
+     "resolveJsonModule": true,
+     "jsx": "preserve"
+   },
+   "include": [
+      "src/**/*.ts",
+      "node_modules/cypress",
+      "cypress/*/*.ts"
+   ]
+ }
+ 
+
+// {
+//    "compilerOptions": {
+//       "lib": [
+//          "es5",
+//          "es6"
+//       ],
+//       "target": "es5",
+//       "module": "commonjs",
+//       "moduleResolution": "node",
+//       "outDir": "./build",
+//       "emitDecoratorMetadata": true,
+//       "experimentalDecorators": true,
+//       "sourceMap": true,
+//       "allowSyntheticDefaultImports": true,
+//       "esModuleInterop": true,
+//       "skipLibCheck": true,
+//    },
+//    "exclude": [
+//       //"node_modules",
+//       //"client",
+//       //"**/*.spec.ts",
+//       //"**/*.test.ts"
+//   ],
+//   "include": [
+//       "src/**/*.ts",
+//       "node_modules/cypress",
+//       "cypress/*/*.ts"
+//   ]
+// }

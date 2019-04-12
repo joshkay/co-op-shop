@@ -10,16 +10,44 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This is will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+/// <reference types="Cypress" />
+
+Cypress.Commands.add("login", () => 
+{
+  return cy.fixture('user').then((user) =>
+  {
+    cy.request(
+    {
+      url: '/seed/user',
+      method: 'POST',
+      body: user,
+    })
+    .then(() =>
+    {
+      cy.request(
+      {
+        url: '/login',
+        method: 'POST',
+        body: 
+        {
+          email: user.email,
+          password: user.password,
+        }
+      });
+    });
+  });      
+});
+
+Cypress.Commands.add("logout", () => 
+{
+  
+});
+
+declare namespace Cypress 
+{
+  export interface Chainable
+  {
+    login: () => Cypress.Chainable<undefined>
+  }
+}
