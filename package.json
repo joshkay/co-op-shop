@@ -4,7 +4,7 @@
    "description": "A shopping list application with real time updates across devices and users.",
    "main": "index.js",
    "scripts": {
-      "start": "ts-node src/index.ts",
+      "start": "tsc && node build/server.js",
       "dev": "SET NODE_ENV=development&& node --inspect=5858 -r ts-node/register src/server.ts",
       "build": "tsc",
       "test": "cypress open",
