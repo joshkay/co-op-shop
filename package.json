@@ -44,6 +44,7 @@
       "jsonwebtoken": "^8.5.1",
       "mysql": "^2.14.1",
       "pg": "^7.9.0",
+      "pg-connection-string": "^2.0.0",
       "reflect-metadata": "^0.1.13",
       "typeorm": "^0.2.16",
       "typescript": "^3.4.2"
