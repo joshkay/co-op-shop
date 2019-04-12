@@ -37,12 +37,12 @@ class SignUpForm extends Component<AllProps>
       <UserForm action="Sign up" canSubmit={!submitting} handleSubmit={handleSubmit(this.handleSubmit)}>
         <Field name="email" id="email" autoFocus autoComplete='nope'
           component={TextField} label="Email Address" fullWidth
-          validate={[required, isEmail]} />
+          validate={[required, isEmail]} data-cy="email" />
         <Field name="password" type="password" id="password" autoComplete='new-password'
           component={TextField} label="Password" fullWidth
-          validate={[required, doPasswordsMatch]} />
+          validate={[required, doPasswordsMatch]} data-cy="password" />
         <Field name="passwordConfirmation" type="password" id="passwordConfirmation"
-          component={TextField} label="Password Confirmation" fullWidth />
+          component={TextField} label="Password Confirmation" fullWidth data-cy="passwordConfirmation" />
       </UserForm>
     );
   }

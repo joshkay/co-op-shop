@@ -22,13 +22,11 @@ export class User
   @Column()
   @Length(3, 30)
   password: string;
-
-  @Column()
-  @CreateDateColumn()
+  
+  @CreateDateColumn({type: "timestamp"})
   createdAt: Date;
 
-  @Column()
-  @UpdateDateColumn()
+  @UpdateDateColumn({type: "timestamp"})
   updatedAt: Date;
 
   hashPassword(): void

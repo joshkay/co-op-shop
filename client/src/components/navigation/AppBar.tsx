@@ -44,8 +44,12 @@ class AppBar extends Component<Props>
     {
       userActions = (
         <React.Fragment>
-          <NavbarLinkButton to="/login" color="inherit">Sign In</NavbarLinkButton>
-          <NavbarLinkButton to="/join" color="secondary">Sign Up</NavbarLinkButton>
+          <NavbarLinkButton to="/login" color="inherit" data-cy='navLogin'>
+            Sign In
+          </NavbarLinkButton>
+          <NavbarLinkButton to="/join" color="secondary" data-cy='navJoin'>
+            Sign Up
+          </NavbarLinkButton>
         </React.Fragment>
       );
     }
@@ -53,8 +57,8 @@ class AppBar extends Component<Props>
     return (
       <nav className={classes.root}>
         <MuiAppBar elevation={0} position="static">
-          <Toolbar>
-            <Link to='/' className={classes.homeLink}>
+          <Toolbar data-cy='navbar'>
+            <Link to='/' className={classes.homeLink} data-cy='navBrand'>
               <Typography variant="h6" color="inherit">
                 Co-Op Shop
               </Typography>

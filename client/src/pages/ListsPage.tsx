@@ -13,7 +13,7 @@ interface Props extends WithStyles<typeof styles>
   
 }
 
-class HomePage extends Component<Props>
+class ListsPage extends Component<Props>
 {
   render()
   {
@@ -25,4 +25,4 @@ class HomePage extends Component<Props>
   }
 }
 
-export default withStyles(styles)(HomePage);
+export default withStyles(styles)(ListsPage);

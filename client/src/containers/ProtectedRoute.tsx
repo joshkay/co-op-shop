@@ -8,7 +8,7 @@ interface Props
 {
   redirect?: LocationDescriptor;
   allow?: 'authenticated' | 'unauthenticated';
-  component: typeof Component;
+  component: any;
   [rest: string]: any 
 }
 

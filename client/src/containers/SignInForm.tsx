@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 import UserForm from '../components/accounts/UserForm';
 import TextField from '../components/forms/TextField';
 import Checkbox from '../components/forms/Checkbox';
-import { required, isEmail } from '../forms/validations';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import { required, isEmail } from '../forms/validations';;
 import { AppState } from '../store';
 import { loginUser } from '../store/users/actions';
 
@@ -39,11 +38,11 @@ class SignInForm extends Component<AllProps>
       <UserForm action="Sign in" canSubmit={!submitting} handleSubmit={handleSubmit(this.handleSubmit)}>
         <Field name="email" id="email" autoComplete="email" autoFocus
           component={TextField} label="Email Address" fullWidth
-          validate={[required, isEmail]} />
+          validate={[required, isEmail]} data-cy="email" />
         <Field name="password" type="password" id="password" autoComplete="current-password" 
           component={TextField} label="Password" fullWidth 
-          validate={required} />
-        <Field name="remember" component={Checkbox} label="Remember me" />
+          validate={required} data-cy="password" />
+        {/* <Field name="remember" component={Checkbox} label="Remember me" /> */}
       </UserForm>
     );
   }

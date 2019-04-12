@@ -1,4 +1,4 @@
-import express = require('express');
+import * as express from 'express';
 
 import * as mainConfig from './config/main';
 import * as clientConfig from './config/client';

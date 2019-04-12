@@ -9,6 +9,7 @@ import UserStatusAppBar from '../containers/UserStatusAppBar';
 import LandingPage from '../pages/LandingPage';
 import SignInPage from '../pages/SignInPage';
 import SignUpPage from '../pages/SignUpPage';
+import ListsPage from '../pages/ListsPage';
 import NotFoundPage from '../pages/NotFoundPage';
 
 import { configureStore } from '../store';
@@ -48,9 +49,11 @@ class App extends Component
             <Switch>
               <Route exact path='/' component={LandingPage} />
               <ProtectedRoute exact path='/login' component={SignInPage}
-                allow='unauthenticated' />
+                allow='unauthenticated' redirect='/lists' />
               <ProtectedRoute exact path='/join' component={SignUpPage}
-                allow='unauthenticated' />
+                allow='unauthenticated' redirect='/lists' />
+              <ProtectedRoute exact path='/lists' component={ListsPage}
+                allow='authenticated' />
               <Route component={NotFoundPage} />
             </Switch>
           </Provider>
@@ -58,6 +61,11 @@ class App extends Component
       </MuiThemeProvider>
     );
   }
+}
+
+if ((window as any).Cypress) 
+{
+  (window as any).store = store;
 }
 
 export default App;

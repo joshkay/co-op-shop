@@ -9,7 +9,6 @@ import {
   USER_CREATE_REQUEST,
   UserActionTypes
 } from './types';
-import { storeToken } from '../../auth';
 
 export const userAuthenticated = (token: string, email: string): UserActionTypes =>
 {
@@ -66,7 +65,6 @@ export const loginUser = (email: string, password: string) =>
       const res = await http.post(`/user/login`, { email, password });
 
       const token = res.data;
-      storeToken(token);
 
       return dispatch(userAuthenticated(token, email));
     } 
@@ -83,8 +81,6 @@ export const logoutUser = () =>
   {
     dispatch(userLogoutRequest());
 
-    delete localStorage.authToken;
-
     dispatch(userUnauthenticated());
   }
 }
@@ -99,7 +95,6 @@ export const registerUser = (email: string, password: string) =>
       const res = await http.post(`/user`, { email, password });
 
       const token = res.data;
-      storeToken(token);
       
       return dispatch(userAuthenticated(token, email));
     } 

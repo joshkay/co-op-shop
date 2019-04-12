@@ -24,12 +24,16 @@ const TextField: React.SFC<TextFieldProps> = ({ input, id, name, required = fals
   const showError: boolean = (touched && error) ? true : false;
   const errorElementId: string = `${id}-text`;
   const errorElement: JSX.Element | null = showError ? (
-    <FormHelperText id={errorElementId}>{error}</FormHelperText>
+    <FormHelperText data-cy="field-error" id={errorElementId}>
+      {error}
+    </FormHelperText>
   ) : null;
 
   return (
     <FormControl margin="normal" fullWidth error={showError}>
-      <InputLabel htmlFor={id} required={required}>{label}</InputLabel>
+      <InputLabel data-cy="field-label" htmlFor={id} required={required}>
+        {label}
+      </InputLabel>
       {/* value={input.value} onChange={input.onChange} */}
       <Input id={id} name={name} {...custom} {...input}
         aria-describedby={error ? errorElementId : ''} />

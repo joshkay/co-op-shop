@@ -68,7 +68,7 @@ class UserMenu extends Component<Props, State>
 
     return (
       <React.Fragment>
-        <IconButton 
+        <IconButton data-cy='navUser'
           buttonRef={node => {
             this.menuAnchor = node;
           }}
@@ -79,10 +79,12 @@ class UserMenu extends Component<Props, State>
           <UserAvatar letter={letter} />
         </IconButton >
         <Popper open={open} anchorEl={this.menuAnchor} disablePortal>
-          <Paper>
+          <Paper data-cy='navUserMenu'>
             <ClickAwayListener onClickAway={this.handleClose}>
               <MenuList>
-                <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={this.handleLogout} data-cy='navUserMenuLogout'>
+                  Logout
+                </MenuItem>
               </MenuList>
             </ClickAwayListener>
           </Paper>
