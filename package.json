@@ -6,6 +6,7 @@
    "scripts": {
       "start": "tsc && node build/server.js",
       "dev": "SET NODE_ENV=development&& node --inspect=5858 -r ts-node/register src/server.ts",
+      "prod": "SET NODE_ENV=production&&npm run start",
       "build": "tsc",
       "test": "cypress open",
       "heroku-postbuild": "cd client && npm install && npm run build",
