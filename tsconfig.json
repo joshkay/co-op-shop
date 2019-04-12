@@ -13,7 +13,7 @@
      "esModuleInterop": false,
      "allowSyntheticDefaultImports": true,
      "experimentalDecorators": true,
-     //"strict": true,
+     "emitDecoratorMetadata": true,
      "forceConsistentCasingInFileNames": true,
      "module": "commonjs",
      "outDir": "./build",
@@ -22,12 +22,12 @@
      "jsx": "preserve"
    },
    "include": [
-      "src/**/*.ts",
-      "node_modules/cypress",
-      "cypress/*/*.ts"
+      "src/**/*.ts"
    ]
- }
+}
  
+      //"node_modules/cypress",
+      //"cypress/*/*.ts"
 
 // {
 //    "compilerOptions": {
