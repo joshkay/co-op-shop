@@ -4,6 +4,7 @@ import * as jwt from 'jsonwebtoken';
 import { getRepository, getConnection } from 'typeorm';
 import { User } from '../../entity/User';
 import { List } from '../../entity/List';
+import { Item } from '../../entity/Item';
 
 class SeedController
 {
@@ -51,7 +52,7 @@ class SeedController
       try {
         await userRepository.save(user);
       }
-      catch (error) {}
+      catch {}
     }
     else
     {
@@ -68,11 +69,22 @@ class SeedController
       try 
       {
         list = await listRepository.save(list);
+
+        await list.items ? list.items.map(async (itemData) =>
+        {
+          let item = new Item();
+          item.name = itemData.name;
+          item.list = list;
+
+          const itemRepository = getRepository(Item);
+          try
+          {
+            item = await itemRepository.save(item);
+          }
+          catch {}
+        }) : null;
       }
-      catch (error)
-      {
-        
-      }
+      catch {}
     });
 
     res.status(200).send();

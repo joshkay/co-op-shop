@@ -5,16 +5,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
-  OneToMany,
   Unique
 } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
-import { User } from './User';
-import { Item } from './Item';
+import { List } from './List';
 
 @Entity()
-@Unique(["name", "user"])
-export class List 
+@Unique(["name", "list"])
+export class Item 
 {
   @PrimaryGeneratedColumn()
   id: number;
@@ -23,11 +21,11 @@ export class List
   @IsNotEmpty()
   name: string;
 
-  @OneToMany(type => Item, item => item.list)
-  items: Item[];
+  @Column({ default: true })
+  purchased: boolean;
 
-  @ManyToOne(type => User, user => user.lists)
-  user: User;
+  @ManyToOne(list => List, list => list.items)
+  list: List;
   
   @CreateDateColumn({type: "timestamp"})
   createdAt: Date;
