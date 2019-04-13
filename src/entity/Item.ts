@@ -21,10 +21,10 @@ export class Item
   @IsNotEmpty()
   name: string;
 
-  @Column({ default: true })
+  @Column({ default: false })
   purchased: boolean;
 
-  @ManyToOne(list => List, list => list.items)
+  @ManyToOne(list => List, list => list.items, { onDelete: 'CASCADE' })
   list: List;
   
   @CreateDateColumn({type: "timestamp"})

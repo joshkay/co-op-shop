@@ -23,7 +23,7 @@ export class List
   @IsNotEmpty()
   name: string;
 
-  @OneToMany(type => Item, item => item.list)
+  @OneToMany(type => Item, item => item.list, { onDelete: 'CASCADE' })
   items: Item[];
 
   @ManyToOne(type => User, user => user.lists)

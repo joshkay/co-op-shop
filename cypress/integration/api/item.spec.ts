@@ -33,7 +33,17 @@ describe('API - Item', () =>
     return await http.get(`/list/${listId}/item`);
   };
 
-  describe.only('POST /list/:id/item', () =>
+  const deleteItem = async (listId: number, itemId: number) =>
+  {
+    return await http.delete(`/list/${listId}/item/${itemId}`);
+  };
+
+  const editItem = async (listId: number, itemId: number, item: {name?: string, purchased?: boolean}) =>
+  {
+    return await http.patch(`/list/${listId}/item/${itemId}`, item);
+  };
+
+  describe('POST /list/:id/item', () =>
   {
     beforeEach(async () =>
     {
@@ -44,11 +54,31 @@ describe('API - Item', () =>
 
     it('should add a new item to the list and return it', async () =>
     {
+      const itemsBeforeAdd = await getAll(this.listId);
+      const item = 'testitem';     
+
+      const res = await addItem(this.listId, {name: item});
+      
+      const itemsAfterAdd = await getAll(this.listId);
+      
+      expect(itemsAfterAdd.data.length).to.eq(itemsBeforeAdd.data.length + 1);
+      
+      const foundItem = itemsAfterAdd.data.reduce((checkItem) =>
+      (
+        checkItem.id == res.data.id
+      ));
+
+      expect(foundItem.name).to.eq(item);
+      expect(res.data.name).to.eq(item);
+    });
+
+    it('should create an item that is not purchased', async () =>
+    {
       const item = 'testitem';     
 
       const res = await addItem(this.listId, {name: item})
       
-      expect(res.data.name).to.eq(item);
+      expect(res.data.purchased).to.eq(false);
     });
 
     it('should fail with an invalid name', async () =>
@@ -82,24 +112,31 @@ describe('API - Item', () =>
     });
   });
 
-  describe('GET /list/:id/item', () =>
+  describe('GET /list/:listId/item', () =>
   {
     beforeEach(() =>
     {
       cy.fixture('lists')
       .then(async (lists) =>
       {
-        this.lists = await seedLists(lists);
+        const res = await seedLists(lists);
+        this.lists = res.data;
       });
     });
 
     it('should return items that belong to the list', async () =>
     {
       const res = await getAll(this.lists[0].id);
+      const items = this.lists[0].items;
 
-      this.lists[0].items.map((item, index) =>
+      expect(items.length).to.eq(res.data.length);
+      res.data.map(item =>
       {
-        expect(item.name).to.eq(res.data.items[index].name);
+        expect(items).to.deep.include({
+          id: item.id, 
+          name: item.name,
+          purchased: item.purchased
+        });  
       });
     });
 
@@ -110,7 +147,143 @@ describe('API - Item', () =>
       const listId = addListRes.data.id;
 
       const res = await getAll(listId);
-      expect(res.data).to.eq([]);
+      expect(res.data.length).to.eq(0);
+    });
+  });
+
+  describe('DELETE /list/:listId/item/:itemId', () =>
+  {
+    beforeEach(() =>
+    {
+      cy.fixture('lists')
+      .then(async (lists) =>
+      {
+        const res = await seedLists(lists);
+        this.lists = res.data;
+      });
+    });
+
+    it('should delete an item', async () =>
+    {
+      const list = this.lists[0];
+
+      const itemsBeforeDelete = await getAll(list.id);
+      const itemToDelete = list.items[0];   
+
+      const res = await deleteItem(list.id, itemToDelete.id);
+      
+      const itemsAfterDelete = await getAll(list.id);
+      
+      expect(itemsAfterDelete.data.length).to.eq(itemsBeforeDelete.data.length - 1);
+      
+      const foundItem = itemsAfterDelete.data.reduce((checkItem) =>
+      (
+        checkItem.id == res.data.id
+      ));
+
+      expect(foundItem.name).to.eq(undefined);
+      expect(res.status).to.eq(200);
+    });
+
+    it('should respond with an error if the item id is invalid and not change items', async () =>
+    {
+      const list = this.lists[0];
+      const itemId = 1000;
+      
+      const itemsBeforeDelete = await getAll(list.id);
+      
+      try 
+      {
+        const res = await deleteItem(list.id, itemId);
+        assert(false);
+      }
+      catch(error)
+      {
+        console.log(error);
+        expect(error.response.status).to.eq(404);
+      }
+
+      const itemsAfterDelete = await getAll(list.id);
+
+      expect(itemsBeforeDelete.data).to.deep.equal(itemsAfterDelete.data);
+    });
+  });
+
+  describe('PATCH /list/:listId/item/:itemId', () =>
+  {
+    beforeEach(() =>
+    {
+      cy.fixture('lists')
+      .then(async (lists) =>
+      {
+        const res = await seedLists(lists);
+        this.lists = res.data;
+      });
+    });
+
+    it('should update an item name', async () =>
+    {
+      const list = this.lists[0];
+      const itemToUpdate = list.items[2]; 
+      const updatedName = 'newlyupdated';
+
+      const res = await editItem(list.id, itemToUpdate.id, {name: updatedName});
+
+      expect(res.data.name).to.eq(updatedName);
+      expect(res.status).to.eq(200);
+
+      const updatedItems = await getAll(list.id);
+
+      const updatedItem = updatedItems.data.filter((item) => 
+      (
+        item.id === itemToUpdate.id
+      ))[0];
+
+      expect(updatedItem.name).to.eq(updatedName);
+    });
+
+    it('should update whether or not an item was purchased', async () =>
+    {
+      const list = this.lists[0];
+      const itemToUpdate = list.items[2];
+      expect(itemToUpdate.purchased).to.eq(false);
+
+      const res = await editItem(list.id, itemToUpdate.id, {purchased: true});
+
+      expect(res.data.purchased).to.eq(true);
+      expect(res.status).to.eq(200);
+
+      const updatedItems = await getAll(list.id);
+
+      const updatedItem = updatedItems.data.filter((item) => 
+      (
+        item.id === itemToUpdate.id
+      ))[0];
+
+      expect(updatedItem.purchased).to.eq(true);
+    });
+
+    it('should respond with an error if the item id is invalid and not change items', async () =>
+    {
+      const list = this.lists[0];
+      const itemId = 1000;
+      
+      const itemsBeforeEdit = await getAll(list.id);
+      
+      try 
+      {
+        await editItem(list.id, itemId, {name: 'should fail'});
+        assert(false);
+      }
+      catch(error)
+      {
+        console.log(error);
+        expect(error.response.status).to.eq(404);
+      }
+
+      const itemsAfterEdit = await getAll(list.id);
+
+      expect(itemsBeforeEdit.data).to.deep.equal(itemsAfterEdit.data);
     });
   });
 });

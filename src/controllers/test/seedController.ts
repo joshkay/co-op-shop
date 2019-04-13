@@ -59,7 +59,7 @@ class SeedController
       user = res.locals.user;
     }
 
-    await lists.map(async listData =>
+    const newLists = await Promise.all(lists.map(async listData =>
     {
       let list = new List();
       list.name = listData.name;
@@ -68,9 +68,10 @@ class SeedController
       const listRepository = getRepository(List);
       try 
       {
+        const items = listData.items;
         list = await listRepository.save(list);
 
-        await list.items ? list.items.map(async (itemData) =>
+        list.items = items ? await Promise.all(items.map(async (itemData) =>
         {
           let item = new Item();
           item.name = itemData.name;
@@ -82,12 +83,24 @@ class SeedController
             item = await itemRepository.save(item);
           }
           catch {}
-        }) : null;
+
+          return {
+            id: item.id,
+            name: item.name,
+            purchased: item.purchased
+          };
+        })) : null;
       }
       catch {}
-    });
+      
+      return {
+        id: list.id,  
+        name: list.name,
+        items: list.items
+      };
+    }));
 
-    res.status(200).send();
+    res.status(200).send(newLists);
   }
 }
 
