@@ -27,3 +27,17 @@ export const getTokenEmail = (): string | null =>
 
   return token ? jwtDecode<JWTAuthToken>(token).email : null;
 }
+
+export const getJwt = (res: any): string | null =>
+{
+  if (res.headers.authorization)
+  {
+    let headers = res.headers.authorization.split(' ');
+    if (headers[0] === 'Bearer')
+    {
+      return headers[1];
+    }
+  }
+  
+  return null;
+}

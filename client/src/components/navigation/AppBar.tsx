@@ -9,13 +9,19 @@ import UserMenu from '../accounts/UserMenu';
 
 const styles = createStyles({
   root: {
-    
+    display: 'flex'
   },
-  homeLink: {
-    flexGrow: 0,
-    marginRight: 'auto',
+  navBrand: {
     textDecoration: 'none',
     color: 'inherit'
+  },
+  navLink: {
+    marginLeft: 40,
+    textDecoration: 'none',
+    color: 'inherit'
+  },
+  navRightAlign: {
+    marginLeft: 'auto'
   }
 });
 
@@ -23,7 +29,7 @@ interface Props extends WithStyles<typeof styles>
 {
   isAuthenticated: boolean;
   email: string | null;
-  logoutUser(): void;
+  logoutUser: () => void;
 }
 
 class AppBar extends Component<Props>
@@ -33,24 +39,33 @@ class AppBar extends Component<Props>
     const { classes, isAuthenticated, email, logoutUser } = this.props;
     
     let userActions = null;
+    let protectedRoutes = null;
 
     if (isAuthenticated)
     {
       userActions = (
-        <UserMenu email={email} logout={logoutUser} />
+        <UserMenu className={classes.navRightAlign} email={email} logout={logoutUser} />
       );
+
+      protectedRoutes = (
+        <Link to='/lists' data-cy='navLists' className={classes.navLink}>
+          <Typography variant="button" color="inherit">
+            Lists
+          </Typography>
+        </Link>
+      )
     }
     else
     {
       userActions = (
-        <React.Fragment>
+        <div className={classes.navRightAlign}>
           <NavbarLinkButton to="/login" color="inherit" data-cy='navLogin'>
             Sign In
           </NavbarLinkButton>
           <NavbarLinkButton to="/join" color="secondary" data-cy='navJoin'>
             Sign Up
           </NavbarLinkButton>
-        </React.Fragment>
+        </div>
       );
     }
 
@@ -58,11 +73,12 @@ class AppBar extends Component<Props>
       <nav className={classes.root}>
         <MuiAppBar elevation={0} position="static">
           <Toolbar data-cy='navbar'>
-            <Link to='/' className={classes.homeLink} data-cy='navBrand'>
+            <Link to='/' className={classes.navBrand} data-cy='navBrand'>
               <Typography variant="h6" color="inherit">
                 Co-Op Shop
               </Typography>
             </Link>
+            { protectedRoutes }
             { userActions }
           </Toolbar>
         </MuiAppBar>

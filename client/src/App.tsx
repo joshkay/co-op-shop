@@ -53,7 +53,7 @@ class App extends Component
               <ProtectedRoute exact path='/join' component={SignUpPage}
                 allow='unauthenticated' redirect='/lists' />
               <ProtectedRoute exact path='/lists' component={ListsPage}
-                allow='authenticated' />
+                allow='authenticated' redirect='/login' />
               <Route component={NotFoundPage} />
             </Switch>
           </Provider>

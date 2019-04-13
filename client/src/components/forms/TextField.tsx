@@ -8,8 +8,10 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 interface TextFieldProps
 {
   input?: any;
+  className?: string;
   id: string;
   required?: boolean;
+  margin?:  "none" | "dense" | "normal" | undefined;
   name: string;
   label: string;
   meta: {
@@ -19,7 +21,8 @@ interface TextFieldProps
   custom?: any;
 }
 
-const TextField: React.SFC<TextFieldProps> = ({ input, id, name, required = false, label, meta: { touched, error }, ...custom }) => 
+const TextField: React.SFC<TextFieldProps> = ({ className, input, id, name, required = false, 
+  label, margin = "normal", meta: { touched, error }, ...custom }) => 
 {
   const showError: boolean = (touched && error) ? true : false;
   const errorElementId: string = `${id}-text`;
@@ -30,7 +33,7 @@ const TextField: React.SFC<TextFieldProps> = ({ input, id, name, required = fals
   ) : null;
 
   return (
-    <FormControl margin="normal" fullWidth error={showError}>
+    <FormControl className={className} margin={margin} fullWidth error={showError}>
       <InputLabel data-cy="field-label" htmlFor={id} required={required}>
         {label}
       </InputLabel>

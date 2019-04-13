@@ -43,7 +43,7 @@ interface Props extends WithStyles<typeof styles>
   children: React.ReactNode;
   action: string;
   canSubmit: boolean;
-  handleSubmit(e: any): void;
+  handleSubmit: (e: any) => void;
 }
 
 class UserForm extends Component<Props> 
