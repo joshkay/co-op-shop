@@ -29,4 +29,4 @@ export const configureStore = () =>
 
 export const store = configureStore();
 
-export type AppState = ReturnType<typeof rootReducer>
+export type AppState = ReturnType<typeof rootReducer>;
