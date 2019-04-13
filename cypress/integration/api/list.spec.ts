@@ -84,9 +84,10 @@ describe('API - List', () =>
 
           const res = await getAll();
 
-          lists.map((list, index) =>
+          expect(lists.length).to.eq(res.data.length);
+          res.data.map(list =>
           {
-            expect(list.name).to.eq(res.data[index].name);
+            expect(lists).to.deep.include({name: list.name});  
           });
         });
       });
