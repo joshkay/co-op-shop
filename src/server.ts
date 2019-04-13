@@ -22,7 +22,7 @@ const init = async () =>
       password: connectionOptions.password,
       database: connectionOptions.database,
       synchronize: true,
-      entities: ["build/entity/**/*.js"],
+      entities: ["build/src/entity/**/*.js"],
       extra: {
           ssl: true
       }

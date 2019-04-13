@@ -23,7 +23,7 @@ const common = {
    "logging": false,
    "entities": [
       getSettingByEnvironemnt(
-         "build/entity/**/*.js",
+         "build/src/entity/**/*.js",
          "src/entity/**/*.ts"
       )
    ],
@@ -33,7 +33,7 @@ const common = {
    },
    "subscribers": [
       getSettingByEnvironemnt(
-         "build/subscriber/**/*.js",
+         "build/src/subscriber/**/*.js",
          "src/subscriber/**/*.ts"
       )
    ],
@@ -44,7 +44,7 @@ const config = isProduction() ?
    "name": "default",
    "migrations": [
       getSettingByEnvironemnt(
-         "build/migration/**/*.js",
+         "build/src/migration/**/*.js",
          "src/migration/**/*.ts"
       )
    ],
@@ -58,7 +58,7 @@ const config = isProduction() ?
    "name": "default",
    "migrations": [
       getSettingByEnvironemnt(
-         "build/migration/**/*.js",
+         "build/src/migration/**/*.js",
          "src/migration/**/*.ts"
       )
    ],
@@ -71,7 +71,7 @@ const config = isProduction() ?
    "name": "test",
    "migrations": [
       getSettingByEnvironemnt(
-         "build/seed/**/*.js",
+         "build/src/seed/**/*.js",
          "src/seed/**/*.ts"
       )
    ],
