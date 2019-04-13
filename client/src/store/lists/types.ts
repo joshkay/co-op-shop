@@ -8,15 +8,9 @@ export interface ListsState
 
 export interface List
 {
-  ownerId: number;
+  id?: number;
   name: string;
-  items: ListItem[];
-}
-
-export interface ListItem
-{
-  name: string;
-  purchased: boolean;
+  items?: number[];
 }
 
 export const REQUEST_LISTS = 'REQUEST_LISTS';

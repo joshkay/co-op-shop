@@ -199,7 +199,6 @@ describe('API - Item', () =>
       }
       catch(error)
       {
-        console.log(error);
         expect(error.response.status).to.eq(404);
       }
 
@@ -277,7 +276,6 @@ describe('API - Item', () =>
       }
       catch(error)
       {
-        console.log(error);
         expect(error.response.status).to.eq(404);
       }
 

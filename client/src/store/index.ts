@@ -3,11 +3,13 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { userReducer } from '../store/users/reducers';
 import { listsReducer } from '../store/lists/reducers';
+import { itemsReducer } from '../store/items/reducers';
 
 const rootReducer = combineReducers({
   form: formReducer,
   user: userReducer,
-  lists: listsReducer
+  lists: listsReducer,
+  items: itemsReducer
 });
 
 export const configureStore = () =>

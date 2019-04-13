@@ -33,7 +33,7 @@ export const listsReducer = (
       return { 
         ...state,
         error: null,
-        isFetching: true,
+        isFetching: false,
         lists: action.lists
       };
     case RECEIVE_LISTS_ERROR:

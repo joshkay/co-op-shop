@@ -82,9 +82,7 @@ class ItemController
     const itemRepository = getRepository(Item);
     try
     {
-      console.log(res.locals.item);
       const result = await itemRepository.remove(res.locals.item);
-      console.log(result);
     }
     catch(error)
     {

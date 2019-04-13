@@ -10,6 +10,7 @@ import LandingPage from './pages/LandingPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import ListsPage from './pages/ListsPage';
+import ListPage from './pages/ListPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 import { store } from './store';
@@ -51,6 +52,8 @@ class App extends Component
               <ProtectedRoute exact path='/join' component={SignUpPage}
                 allow='unauthenticated' redirect='/lists' />
               <ProtectedRoute exact path='/lists' component={ListsPage}
+                allow='authenticated' redirect='/login' />
+              <ProtectedRoute exact path='/list/:listId' component={ListPage}
                 allow='authenticated' redirect='/login' />
               <Route component={NotFoundPage} />
             </Switch>
