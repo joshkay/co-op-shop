@@ -19,7 +19,10 @@ export const configureStore = () =>
     )
   );
 
-  store.subscribe(() => console.log(store.getState()));
+  if (process.env.NODE_ENV !== 'production')
+  {
+    store.subscribe(() => console.log(store.getState()));
+  }
 
   return store;
 };
