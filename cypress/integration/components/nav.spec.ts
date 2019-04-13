@@ -54,6 +54,12 @@ describe('Component - Navbar', () =>
     {
       cy.get('[data-cy=navUser]').should('not.exist');
     });
+
+    it('should not contain the lists menu', () =>
+    {
+      cy.get('[data-cy=navbar]').should('not.contain', 'Lists');
+      cy.get('[data-cy=navLists]').should('not.exist');
+    });
   });
 
   context('registered user', () =>
@@ -113,6 +119,15 @@ describe('Component - Navbar', () =>
       cy.get('[data-cy=navbar]').should('not.contain', 'Sign Up');
 
       cy.get('[data-cy=navJoin]').should('not.exist');
+    });
+
+    it('should contain a link to the lists page', () =>
+    {
+      cy.get('[data-cy=navbar]').should('contain', 'Lists');
+
+      cy.get('[data-cy=navLists]').should('exist');
+      cy.get('[data-cy=navLists]').click();
+      cy.location('pathname').should('eq', '/lists');
     });
   });
 });

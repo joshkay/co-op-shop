@@ -2,11 +2,12 @@ import {
   Entity,
   PrimaryGeneratedColumn, 
   Column,
-  Unique,
+  OneToMany,
   CreateDateColumn,
   UpdateDateColumn
 } from 'typeorm';
 import { Length, IsNotEmpty, IsEmail } from 'class-validator';
+import { List } from './List';
 import * as bcrypt from 'bcryptjs';
 
 @Entity()
@@ -22,6 +23,9 @@ export class User
   @Column()
   @Length(3, 30)
   password: string;
+
+  @OneToMany(type => List, list => list.user)
+  lists: List[];
   
   @CreateDateColumn({type: "timestamp"})
   createdAt: Date;

@@ -10,7 +10,8 @@ const styles = (theme: Theme) => createStyles({
 interface Props extends WithStyles<typeof styles>
 {
   email: string | null;
-  logout(): void;
+  logout: () => void;
+  className: string
 }
 
 interface State
@@ -61,14 +62,14 @@ class UserMenu extends Component<Props, State>
 
   render()
   {
-    const { classes, email } = this.props;
+    const { classes, email, className } = this.props;
     const { open } = this.state;
 
     const letter = email ? email[0].toUpperCase() : null
 
     return (
       <React.Fragment>
-        <IconButton data-cy='navUser'
+        <IconButton data-cy='navUser' className={className}
           buttonRef={node => {
             this.menuAnchor = node;
           }}

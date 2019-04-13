@@ -13,4 +13,8 @@ router.post('/user',
   seedController.user
 );
 
+router.post('/list',
+  seedController.list
+);
+
 export default router;

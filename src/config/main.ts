@@ -4,6 +4,8 @@ import * as helmet from "helmet";
 import * as cors from "cors";
 import * as dotenv from "dotenv";
 
+import { updateJwt } from '../middlewares/jwt';
+
 import routes from '../routes';
 
 export const init = (app, express) =>
@@ -12,6 +14,8 @@ export const init = (app, express) =>
   app.use(cors());
   app.use(helmet());
   app.use(bodyParser.json());
+
+  app.use(updateJwt);
 
   app.use("/", routes);
 }

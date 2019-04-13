@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { validate } from 'class-validator';
-import * as jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import { User } from '../entity/User';
+import { createJwt, setJwtHeader } from '../auth';
 
 class UserController
 {
@@ -26,7 +26,7 @@ class UserController
     const userRepository = getRepository(User);
     try
     {
-      await userRepository.save(user);
+      user = await userRepository.save(user);
     }
     catch (error)
     {
@@ -34,7 +34,9 @@ class UserController
       return;
     }
 
-    res.send(UserController.getJwtToken(user.id, user.email));
+    setJwtHeader(res, createJwt(user.id, user.email));
+
+    res.status(200).send();
   }
 
   async login(req: Request, res: Response)
@@ -66,17 +68,10 @@ class UserController
       res.status(401).send();
       return;
     }
+    
+    setJwtHeader(res, createJwt(user.id, user.email));
 
-    res.send(UserController.getJwtToken(user.id, user.email));
-  }
-
-  static getJwtToken(userId: number, email: string): string
-  {
-    return jwt.sign(
-      { userId, email },
-      process.env.JWTSecret,
-      { expiresIn: process.env.JWTExpirationTime }
-    );
+    res.status(200).send();
   }
 }
 

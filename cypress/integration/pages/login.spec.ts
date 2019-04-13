@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 
-import { login } from '../../helpers/auth';
+import { login, getLoginUser } from '../../helpers/auth';
+import { sync } from '../../helpers';
+import { seedUser } from '../../helpers/seeds';
 
 describe('Page - Login', () =>
 {
@@ -76,18 +78,11 @@ describe('Page - Login', () =>
   {
     before(() =>
     {
-      cy.request({
-        url: '/seed/sync',
-        method: 'POST'
-      });
+      sync();
 
-      cy.fixture('user').then((user) =>
+      getLoginUser().then((user) =>
       {
-        cy.request({
-          url: '/seed/user',
-          method: 'POST',
-          body: user,
-        });
+        seedUser(user);
       });
     });
 

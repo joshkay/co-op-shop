@@ -9,6 +9,7 @@ import {
   USER_CREATE_REQUEST,
   UserActionTypes
 } from './types';
+import { getJwt } from '../../auth';
 
 export const userAuthenticated = (token: string, email: string): UserActionTypes =>
 {
@@ -64,7 +65,7 @@ export const loginUser = (email: string, password: string) =>
     {
       const res = await http.post(`/user/login`, { email, password });
 
-      const token = res.data;
+      const token = <string>getJwt(res);
 
       return dispatch(userAuthenticated(token, email));
     } 
@@ -94,7 +95,7 @@ export const registerUser = (email: string, password: string) =>
     {
       const res = await http.post(`/user`, { email, password });
 
-      const token = res.data;
+      const token = <string>getJwt(res);
       
       return dispatch(userAuthenticated(token, email));
     } 

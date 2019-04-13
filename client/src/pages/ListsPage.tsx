@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Theme } from '@material-ui/core';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import ShoppingLists from '../components/shopping/ShoppingLists';
+import UserShoppingLists from '../containers/UserShoppingLists';
 
 const styles = (theme: Theme) => createStyles({
   
@@ -20,7 +19,7 @@ class ListsPage extends Component<Props>
     const { classes } = this.props;
 
     return (
-      <ShoppingLists />
+      <UserShoppingLists />
     );
   }
 }

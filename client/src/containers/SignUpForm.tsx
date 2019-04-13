@@ -10,7 +10,7 @@ import { registerUser } from '../store/users/actions';
 interface Props
 {
   error: string | null,
-  registerUser(email: string, password: string): void;
+  registerUser: (email: string, password: string) => void;
 }
 
 type AllProps = Props & InjectedFormProps<{}, Props>;

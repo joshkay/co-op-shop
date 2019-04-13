@@ -1,22 +1,24 @@
 import { dispatch, getState } from './redux';
 import { AppState } from '../../client/src/store';
 import { userAuthenticated, userUnauthenticated } from '../../client/src/store/users/actions';
+import { seedUser } from './seeds';
+import { getJwt } from '../../src/auth';
 
 export const getLoginUser = () =>
 {
-  return cy.fixture('user');
+  return cy.fixture('users/testUser');
+}
+
+export const getOtherTestUser = () =>
+{
+  return cy.fixture('users/otherTestUser');
 }
 
 export const login = () => 
 {
   return getLoginUser().then((user) =>
   {
-    cy.request(
-    {
-      url: '/seed/user',
-      method: 'POST',
-      body: user,
-    })
+    seedUser(user)
     .then(() =>
     {
       cy.request(
@@ -31,7 +33,8 @@ export const login = () =>
       })
       .then((res: any) =>
       {
-        dispatch(userAuthenticated(res.body, user.email));
+        const token = getJwt(res);
+        dispatch(userAuthenticated(token, user.email));
       });
     });
   });      

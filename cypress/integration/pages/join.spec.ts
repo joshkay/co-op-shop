@@ -1,5 +1,9 @@
 /// <reference types="cypress"/>
 
+import { sync } from "../../helpers";
+import { seedUser } from "../../helpers/seeds";
+import { getLoginUser } from "../../helpers/auth";
+
 describe('Page - Join', () =>
 {
   beforeEach(() =>
@@ -63,10 +67,7 @@ describe('Page - Join', () =>
   {
     before(() =>
     {
-      cy.request({
-        url: '/seed/sync',
-        method: 'POST'
-      });
+      sync();
     });
 
     it('should succesfully register a new user', () =>
@@ -88,19 +89,12 @@ describe('Page - Join', () =>
   {
     before(() =>
     {
-      cy.request({
-        url: '/seed/sync',
-        method: 'POST'
-      });
+      sync();
 
-      cy.fixture('user').then((user) =>
+      getLoginUser().then((user) =>
       {
         this.user = user;
-        cy.request({
-          url: '/seed/user',
-          method: 'POST',
-          body: user,
-        });
+        seedUser(user);
       });
     });
 

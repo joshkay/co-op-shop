@@ -1,22 +1,19 @@
+import { connect } from 'react-redux';
+import { AppState } from '../store';
+import ShoppingLists from '../components/shopping/ShoppingLists';
+import { fetchLists, addList } from '../store/lists/actions';
 
-import React from 'react';
-import { Grid, Typography } from '@material-ui/core';
-import { withStyles, WithStyles, createStyles, Theme } from '@material-ui/core/styles';
-
-const styles = createStyles({
-  
-});
-
-interface Props extends WithStyles<typeof styles>
+const mapStateToProps = (state: AppState) =>
 {
-  
+  return {
+    lists: state.lists.lists,
+    isFetching: state.lists.isFetching,
+    isAdding: state.lists.isAdding,
+    error: state.lists.error
+  }
 }
 
-const UserShoppingLists: React.SFC<Props> = ({ classes }) =>
-(
-  <Typography variant='h1'>
-    Lists
-  </Typography> 
-);
-
-export default withStyles(styles)(UserShoppingLists);
+export default connect(
+  mapStateToProps,
+  { fetchLists, addList }
+)(ShoppingLists);
