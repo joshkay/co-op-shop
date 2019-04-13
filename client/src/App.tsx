@@ -12,9 +12,7 @@ import SignUpPage from './pages/SignUpPage';
 import ListsPage from './pages/ListsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
-import { configureStore } from './store';
-
-const store = configureStore();
+import { store } from './store';
 
 const theme = createMuiTheme({
   palette: {

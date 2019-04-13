@@ -3,7 +3,8 @@ import jwtDecode from 'jwt-decode';
 export interface JWTAuthToken
 {
   userId: number,
-  email: string
+  email: string,
+  exp: number
 }
 
 export const storeToken = (token: string) =>
@@ -40,4 +41,11 @@ export const getJwt = (res: any): string | null =>
   }
   
   return null;
+}
+
+export const isTokenExpired = (token: string): boolean =>
+{
+  const exp = jwtDecode<JWTAuthToken>(token).exp;
+
+  return (Date.now() / 1000 >= exp);
 }
