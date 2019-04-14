@@ -128,7 +128,7 @@ describe('Page - Lists', () =>
     });
   });
 
-  context('no authenticated user', () =>
+  context('unauthenticated user', () =>
   {
     beforeEach(() =>
     {
