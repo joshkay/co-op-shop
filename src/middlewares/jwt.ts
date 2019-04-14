@@ -3,26 +3,21 @@ import * as jwt from 'jsonwebtoken';
 import { createJwt, setJwtHeader, getJwt } from '../auth';
 import { getRepository } from 'typeorm';
 import { User } from '../entity/User';
+import { verifyAndDecodeJwt } from '../auth';
 
 export const updateJwt = async (req: Request, res: Response, next: NextFunction) => 
 {
   // Get the JWT token from headers
   const token: string = <string>getJwt(req);
-  let jwtPayload;
+  let jwtPayload = verifyAndDecodeJwt(token);
   
-  // Try to validate the token and get data
-  try 
+  if (!jwtPayload)
   {
-    jwtPayload = <any>jwt.verify(token, process.env.JWTSecret);
-  } 
-  catch (error) 
-  {
-    // If token is not valid, make sure user is null
     res.locals.user = null;
     next();
     return;
   }
-
+  
   // We want to send a new token on every request
   // Set its expiration time to that in the .env config
   const { userId, email } = jwtPayload;

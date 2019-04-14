@@ -14,9 +14,6 @@ import ListPage from './pages/ListPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 import { store } from './store';
-import { configureSocket } from './socket';
-
-configureSocket(store);
 
 const theme = createMuiTheme({
   palette: {

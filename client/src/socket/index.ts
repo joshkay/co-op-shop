@@ -1,20 +1,23 @@
 import * as io from 'socket.io-client';
-import {
-  requestAddItemSuccess
-} from '../store/items/actions';
-import {
-  REQUEST_ADD_ITEM_SUCCESS,
-  ItemsActionTypes
-} from '../store/items/types';
-import { Store } from 'redux';
+import { getToken } from '../auth';
+import { store } from '../store';
 
-export const configureSocket = (store: Store) =>
+const socket = io({query: {token: getToken()}});
+
+// dispatch all item events
+socket.on('item', (payload: any) =>
 {
-  const socket = io();
-  
-  // dispatch all item events
-  socket.on('item', (payload: any) =>
-  {
-    store.dispatch(payload);
-  });
-};
+  store.dispatch(payload);
+});
+
+export const disconnectSocket = () =>
+{
+  socket.disconnect();
+}
+
+export const connectSocket = () =>
+{
+  socket.connect();
+}
+
+export default socket;
