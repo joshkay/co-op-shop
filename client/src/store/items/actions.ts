@@ -51,7 +51,7 @@ export const fetchItems = (list: List) =>
     dispatch(requestItems(list));
     try 
     {
-      const res = await http.get(`/list/${list.id}/item`);
+      const res = await http.get(`/api/list/${list.id}/item`);
 
       const items = res.data;
 
@@ -97,7 +97,7 @@ export const addItem = (list: List, name: string) =>
     dispatch(requestAddItem(list, name));
     try 
     {
-      const res = await http.post(`/list/${list.id}/item`, {name});
+      const res = await http.post(`/api/list/${list.id}/item`, {name});
 
       //const item = res.data;
 
@@ -143,7 +143,7 @@ export const updateItem = (list: List, item: Item, updates: ItemUpdates) =>
     dispatch(requestUpdateItem(item, updates));
     try 
     {
-      const res = await http.patch(`/list/${list.id}/item/${item.id}`, updates);
+      const res = await http.patch(`/api/list/${list.id}/item/${item.id}`, updates);
 
       //const updatedItem = res.data;
 
@@ -191,7 +191,7 @@ export const deleteItem = (list: List, item: Item) =>
     dispatch(requestDeleteItem(list, item));
     try 
     {
-      await http.delete(`/list/${list.id}/item/${item.id}`);
+      await http.delete(`/api/list/${list.id}/item/${item.id}`);
 
       //return dispatch(requestDeleteItemSuccess(list, item));
     } 

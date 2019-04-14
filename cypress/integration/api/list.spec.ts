@@ -20,20 +20,20 @@ describe('API - List', () =>
 
   const add = async (list: {name: string}) =>
   {
-    return await http.post(`/list`, list);
+    return await http.post(`/api/list`, list);
   };
 
   const getOne = async (id: number) =>
   {
-    return await http.get(`/list/${id}`);
+    return await http.get(`/api/list/${id}`);
   }
 
   const getAll = async () =>
   {
-    return await http.get(`/list`);
+    return await http.get(`/api/list/`);
   };
 
-  describe('POST /list', () =>
+  describe('POST /api/list', () =>
   {
     it('should create a new list and return it', async () =>
     {
@@ -74,7 +74,7 @@ describe('API - List', () =>
     });
   });
 
-  describe('GET /list', () =>
+  describe('GET /api/list', () =>
   {
     it('should return lists that belong to user', () =>
     {
@@ -121,7 +121,7 @@ describe('API - List', () =>
     });
   });
 
-  describe('GET /list/:listId', () =>
+  describe('GET /api/list/:listId', () =>
   {
     it('should return list along with items', () =>
     {

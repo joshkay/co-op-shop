@@ -16,7 +16,7 @@ describe('API - Users', () =>
   const add = (user: {email: string, password:string}) =>
   (
     cy.request({
-      url: '/user',
+      url: '/api/user',
       method: 'POST',
       body: user,
       failOnStatusCode: false
@@ -26,14 +26,14 @@ describe('API - Users', () =>
   const login = (user: {email?: string, password?: string}) =>
   (
     cy.request({
-      url: '/user/login',
+      url: '/api/user/login',
       method: 'POST',
       body: user,
       failOnStatusCode: false
     })
   );
 
-  describe('POST /user', () =>
+  describe('POST /api/user', () =>
   {
     it('should add a valid user and respond with a JWT contianing their email', () =>
     {
@@ -61,7 +61,7 @@ describe('API - Users', () =>
     });
   });
 
-  describe('POST /user/login', () =>
+  describe('POST /api/user/login', () =>
   {
     beforeEach(() =>
     {

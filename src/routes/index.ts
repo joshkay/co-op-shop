@@ -3,14 +3,18 @@ import user from './user';
 import list from './list';
 import seed from './test/seed';
 
-const routes = Router();
+const router = Router();
 
-routes.use('/user', user);
-routes.use('/list', list);
+const apiRouter = Router();
+
+apiRouter.use('/user', user);
+apiRouter.use('/list', list);
 
 if (process.env.NODE_ENV !== 'production')
 {
-  routes.use('/seed', seed);
+  apiRouter.use('/seed', seed);
 }
 
-export default routes;
+router.use('/api', apiRouter);
+
+export default router;

@@ -45,7 +45,7 @@ export const fetchLists = () =>
     dispatch(requestLists());
     try 
     {
-      const res = await http.get(`/list`);
+      const res = await http.get(`/api/list`);
 
       const lists = res.data;
 
@@ -90,7 +90,7 @@ export const fetchListWithItems = (id: number) =>
     dispatch(requestListWithItems(id));
     try 
     {
-      const res = await http.get(`/list/${id}`);
+      const res = await http.get(`/api/list/${id}`);
 
       let list = res.data;
       let items = res.data.items;
@@ -137,7 +137,7 @@ export const addList = (name: string) =>
     dispatch(requestAddList(name));
     try 
     {
-      const res = await http.post(`/list`, {name});
+      const res = await http.post(`/api/list`, {name});
 
       const list = res.data;
 

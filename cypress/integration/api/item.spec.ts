@@ -20,30 +20,30 @@ describe('API - Item', () =>
 
   const addList = async (list: {name: string}) =>
   {
-    return await http.post(`/list`, list);
+    return await http.post(`/api/list`, list);
   };
 
   const addItem = async (listId: number, item: {name: string}) =>
   {
-    return await http.post(`/list/${listId}/item`, item);
+    return await http.post(`/api/list/${listId}/item`, item);
   };
 
   const getAll = async (listId: number) =>
   {
-    return await http.get(`/list/${listId}/item`);
+    return await http.get(`/api/list/${listId}/item`);
   };
 
   const deleteItem = async (listId: number, itemId: number) =>
   {
-    return await http.delete(`/list/${listId}/item/${itemId}`);
+    return await http.delete(`/api/list/${listId}/item/${itemId}`);
   };
 
   const editItem = async (listId: number, itemId: number, item: {name?: string, purchased?: boolean}) =>
   {
-    return await http.patch(`/list/${listId}/item/${itemId}`, item);
+    return await http.patch(`/api/list/${listId}/item/${itemId}`, item);
   };
 
-  describe('POST /list/:id/item', () =>
+  describe('POST /api/list/:id/item', () =>
   {
     beforeEach(async () =>
     {
@@ -112,7 +112,7 @@ describe('API - Item', () =>
     });
   });
 
-  describe('GET /list/:listId/item', () =>
+  describe('GET /api/list/:listId/item', () =>
   {
     beforeEach(() =>
     {
@@ -151,7 +151,7 @@ describe('API - Item', () =>
     });
   });
 
-  describe('DELETE /list/:listId/item/:itemId', () =>
+  describe('DELETE /api/list/:listId/item/:itemId', () =>
   {
     beforeEach(() =>
     {
@@ -208,7 +208,7 @@ describe('API - Item', () =>
     });
   });
 
-  describe('PATCH /list/:listId/item/:itemId', () =>
+  describe('PATCH /api/list/:listId/item/:itemId', () =>
   {
     beforeEach(() =>
     {

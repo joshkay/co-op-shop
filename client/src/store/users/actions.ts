@@ -63,7 +63,7 @@ export const loginUser = (email: string, password: string) =>
     dispatch(userLoginRequest());
     try 
     {
-      const res = await http.post(`/user/login`, { email, password });
+      const res = await http.post(`/api/user/login`, { email, password });
 
       const token = <string>getJwt(res);
 
@@ -93,7 +93,7 @@ export const registerUser = (email: string, password: string) =>
     dispatch(userCreateRequest());
     try 
     {
-      const res = await http.post(`/user`, { email, password });
+      const res = await http.post(`/api/user`, { email, password });
 
       const token = <string>getJwt(res);
       

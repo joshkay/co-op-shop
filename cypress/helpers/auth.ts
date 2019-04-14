@@ -23,7 +23,7 @@ export const login = () =>
     {
       cy.request(
       {
-        url: '/user/login',
+        url: '/api/user/login',
         method: 'POST',
         body: 
         {
