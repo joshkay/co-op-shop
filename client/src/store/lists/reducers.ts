@@ -14,21 +14,25 @@ import {
 import {
   ItemsActionTypes, 
   REQUEST_DELETE_ITEM_SUCCESS,
+  REQUEST_ADD_ITEM_SUCCESS,
   RECEIVE_ITEMS
 } from '../items/types';
-import { REQUEST_ADD_ITEM_SUCCESS } from '../items/types';
+import { 
+  USER_UNAUTHENTICATED,
+  UserActionTypes
+} from '../users/types';
 
 const initialState: ListsState =
 {
   isFetching: false,
   isAdding: false,
-  lists: [],
+  lists: {},
   error: null
 };
 
 export const listsReducer = (
   state = initialState,
-  action: ListsActionTypes | ItemsActionTypes
+  action: ListsActionTypes | ItemsActionTypes | UserActionTypes
 ): ListsState =>
 {
   switch (action.type)
@@ -128,6 +132,11 @@ export const listsReducer = (
             items: filteredItems
           }
         }
+      };
+    case USER_UNAUTHENTICATED:
+      return {
+        ...state,
+        lists: {}
       };
     default:
       return state;

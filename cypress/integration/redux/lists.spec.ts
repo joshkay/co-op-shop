@@ -7,12 +7,46 @@ import { Item } from '../../../client/src/store/items/types';
 import {
   receiveLists, requestAddListSuccess
 } from '../../../client/src/store/lists/actions';
+import {
+  userUnauthenticated
+} from '../../../client/src/store/users/actions';
 
 describe('Redux - Lists', () =>
 {
   beforeEach(() =>
   {
     this.store = configureStore();
+  });
+
+  context('auth', () =>
+  {
+    it('should clear the store on logout', () =>
+    {
+      const lists: List[] = 
+      [{
+        id: 0,
+        name: 'redux',
+        items:[]
+      },
+      {
+        id: 1,
+        name: 'tests',
+        items:[]
+      },
+      {
+        id: 2,
+        name: 'functions',
+        items:[]
+      }];
+      
+      this.store.dispatch(receiveLists(lists));
+
+      expect(Object.keys(this.store.getState().lists.lists).length).to.eq(lists.length);
+
+      this.store.dispatch(userUnauthenticated());
+
+      expect(Object.keys(this.store.getState().lists.lists).length).to.eq(0);
+    });
   });
 
   context('fetching', () =>
