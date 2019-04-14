@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { validate } from 'class-validator';
 import * as jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
@@ -7,6 +7,28 @@ import { List } from '../entity/List';
 
 class ListController
 {
+  async handleListParam(req: Request, res: Response, next: NextFunction)
+  {
+    const listId = req.params.listId;
+
+    const listRepository = getRepository(List);
+    let list;
+    try
+    {
+      list = await listRepository.findOneOrFail(
+        { where: { id: listId } }
+      );
+    }
+    catch (error) 
+    {
+      res.status(404).send();
+      return;
+    }
+
+    res.locals.list = list;
+    next();
+  }
+
   async create(req: Request, res: Response)
   {
     let { name } = req.body;
@@ -34,7 +56,11 @@ class ListController
       return;
     }
 
-    res.send(list);
+    const listData = {
+      id: list.id,
+      name: list.name
+    }
+    res.send(listData);
   }
 
   async getAllForUser(req: Request, res: Response)
@@ -44,8 +70,9 @@ class ListController
     try
     {
       lists = await listRepository.find({
+        select: ['id', 'name'],
         where: { user: res.locals.user },
-        order: { createdAt: 'ASC' }
+        order: { createdAt: 'DESC' }
       });
     }
     catch (error)
@@ -55,6 +82,30 @@ class ListController
     }
 
     res.send(lists);
+  }
+
+  async getById(req: Request, res: Response)
+  {
+    const listRepository = getRepository(List);
+
+    const listId = req.params.listId;
+    let list: List;
+
+    try
+    {
+      list = await listRepository.findOneOrFail({
+        select: ['id', 'name'],
+        where: { id: listId, user: res.locals.user },
+        relations: ['items']
+      });
+    }
+    catch (error)
+    {
+      res.status(404).send();
+      return;
+    }
+
+    res.send(list);
   }
 }
 

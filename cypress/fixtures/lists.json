@@ -1,11 +1,33 @@
 [
   {
-    "name": "list1"
+    "id": 0,
+    "name": "list1",
+    "items": 
+    [
+      {
+        "name": "list1-item1"
+      },
+      {
+        "name": "list1-item2",
+        "purchased": "true"
+      },
+      {
+        "name": "list1-item3"
+      }
+    ]
   },
   {
+    "id": 1,
     "name": "list2"
   },
   {
-    "name": "list3"
+    "id": 2,
+    "name": "list3",
+    "items": 
+    [
+      {
+        "name": "list2-item1"
+      }
+    ]
   }
 ]

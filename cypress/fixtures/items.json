@@ -1,0 +1,38 @@
+[
+  {
+    "id": "0",
+    "name": "list1",
+    "items": {
+      "0": {
+        "id": "0",
+        "name": "list1-item1",
+        "purchased": "false"
+      },
+      "1": {
+        "id": "1",
+        "name": "list1-item2",
+        "purchased": "true"
+      },
+      "2": {
+        "id": "2",
+        "name": "list1-item3",
+        "purchased": "false"
+      }
+    }
+  },
+  {
+    "id": "1",
+    "name": "list2"
+  },
+  {
+    "id": "2",
+    "name": "list3",
+    "items": {
+      "0": {
+        "id": "3",
+        "name": "list2-item1",
+        "purchased": "false"
+      }
+    }
+  }
+]

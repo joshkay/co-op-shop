@@ -4,12 +4,16 @@ import {
   REQUEST_LISTS,
   RECEIVE_LISTS,
   RECEIVE_LISTS_ERROR,
+  REQUEST_LIST_WITH_ITEMS,
+  RECEIVE_LIST_WITH_ITEMS,
+  RECEIVE_LIST_WITH_ITEMS_ERROR,
   REQUEST_ADD_LIST,
   REQUEST_ADD_LIST_FAIL,
   REQUEST_ADD_LIST_SUCCESS,
   ListsActionTypes,
   List
 } from './types';
+import { Item } from '../items/types';
 
 export const requestLists = (): ListsActionTypes =>
 {
@@ -53,6 +57,53 @@ export const fetchLists = () =>
     }
   }
 };
+
+export const requestListWithItems = (id: number): ListsActionTypes =>
+{
+  return {
+    type: REQUEST_LIST_WITH_ITEMS,
+    id
+  }
+};
+
+export const receiveListWithItems = (list: List, items: Item[]): ListsActionTypes =>
+{
+  return {
+    type: RECEIVE_LIST_WITH_ITEMS,
+    list,
+    items
+  }
+};
+
+export const receiveListWithItemsError = (error: string): ListsActionTypes =>
+{
+  return {
+    type: RECEIVE_LIST_WITH_ITEMS_ERROR,
+    error
+  }
+};
+
+export const fetchListWithItems = (id: number) =>
+{
+  return async (dispatch: Dispatch) =>
+  {
+    dispatch(requestListWithItems(id));
+    try 
+    {
+      const res = await http.get(`/list/${id}`);
+
+      let list = res.data;
+      let items = res.data.items;
+      delete list.items;
+
+      return dispatch(receiveListWithItems(list, items));
+    } 
+    catch (error) 
+    {
+      return dispatch(receiveListWithItemsError(error));
+    }
+  }
+}
 
 export const requestAddList = (name: string): ListsActionTypes =>
 {
