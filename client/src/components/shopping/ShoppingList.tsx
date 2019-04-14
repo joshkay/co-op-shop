@@ -80,12 +80,10 @@ class ShoppingList extends Component<Props, State>
     if (list != undefined)
     {
       fetchItems(list as List);
-      console.log('fetch items')
     }
     else
     {
       fetchListWithItems(listId);
-      console.log('fetch list')
     }
   }
 

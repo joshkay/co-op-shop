@@ -99,9 +99,9 @@ export const addItem = (list: List, name: string) =>
     {
       const res = await http.post(`/list/${list.id}/item`, {name});
 
-      const item = res.data;
+      //const item = res.data;
 
-      return dispatch(requestAddItemSuccess(list, item));
+      //return dispatch(requestAddItemSuccess(list, item));
     } 
     catch (error) 
     {
@@ -145,9 +145,9 @@ export const updateItem = (list: List, item: Item, updates: ItemUpdates) =>
     {
       const res = await http.patch(`/list/${list.id}/item/${item.id}`, updates);
 
-      const updatedItem = res.data;
+      //const updatedItem = res.data;
 
-      return dispatch(requestUpdateItemSuccess(updatedItem));
+      //return dispatch(requestUpdateItemSuccess(updatedItem));
     } 
     catch (error) 
     {
@@ -193,7 +193,7 @@ export const deleteItem = (list: List, item: Item) =>
     {
       await http.delete(`/list/${list.id}/item/${item.id}`);
 
-      return dispatch(requestDeleteItemSuccess(list, item));
+      //return dispatch(requestDeleteItemSuccess(list, item));
     } 
     catch (error) 
     {

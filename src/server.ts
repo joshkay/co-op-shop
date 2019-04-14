@@ -1,5 +1,7 @@
 import * as http from "http";
-import { app } from './app';
+import * as express from 'express';
+import * as mainConfig from './config/main';
+import * as clientConfig from './config/client';
 import { AddressInfo } from "net";
 import "reflect-metadata";
 import { createConnection, ConnectionOptions } from "typeorm";
@@ -35,7 +37,12 @@ const init = async () =>
     await createConnection();
   }
 
+  const app = express();
+
   let server: http.Server = app.listen(port);
+  
+  mainConfig.init(app, express, server);
+  clientConfig.init(app, express);
 
   server.on('listening', () =>
   {
