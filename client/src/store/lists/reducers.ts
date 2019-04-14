@@ -4,12 +4,17 @@ import {
   REQUEST_LISTS,
   RECEIVE_LISTS,
   RECEIVE_LISTS_ERROR,
+  REQUEST_LIST_WITH_ITEMS,
+  RECEIVE_LIST_WITH_ITEMS,
+  RECEIVE_LIST_WITH_ITEMS_ERROR,
   REQUEST_ADD_LIST,
   REQUEST_ADD_LIST_FAIL,
   REQUEST_ADD_LIST_SUCCESS
 } from './types';
 import {
-  ItemsActionTypes, REQUEST_DELETE_ITEM_SUCCESS
+  ItemsActionTypes, 
+  REQUEST_DELETE_ITEM_SUCCESS,
+  RECEIVE_ITEMS
 } from '../items/types';
 import { REQUEST_ADD_ITEM_SUCCESS } from '../items/types';
 
@@ -29,6 +34,7 @@ export const listsReducer = (
   switch (action.type)
   {
     case REQUEST_LISTS:
+    case REQUEST_LIST_WITH_ITEMS:
       return { 
         ...state,
         isFetching: true
@@ -46,7 +52,20 @@ export const listsReducer = (
         isFetching: false,
         lists: mappedItems
       };
+    case RECEIVE_ITEMS:
+    case RECEIVE_LIST_WITH_ITEMS:
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          [action.list.id]: {
+            ...action.list,
+            items: action.items.map(item => item.id)
+          }
+        }
+      };
     case RECEIVE_LISTS_ERROR:
+    case RECEIVE_LIST_WITH_ITEMS_ERROR:
       return { 
         ...state,
         isFetching: false,

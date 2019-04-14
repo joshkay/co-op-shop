@@ -160,7 +160,7 @@ describe('Redux - Items', () =>
       expect(this.store.getState().items.items[1].error).to.eq(error);
     });
 
-    it('should remove an item from the state', () =>
+    it.only('should remove an item from the state', () =>
     {
       const newItem: Item = {
         id: 4,
@@ -175,7 +175,15 @@ describe('Redux - Items', () =>
 
       this.store.dispatch(receiveItems(this.list, this.items));
 
+      let itemIds = this.items.map(item => item.id);
+      expect(this.store.getState().lists.lists[this.list.id].items)
+        .to.deep.eq(itemIds);
+
       this.store.dispatch(requestDeleteItemSuccess(this.list, this.items[1]));
+
+      itemIds = itemIds.filter(id => id != this.items[1].id);
+      expect(this.store.getState().lists.lists[this.list.id].items)
+        .to.deep.eq(itemIds);
 
       expect(this.store.getState().items.items).to.have.keys('0', '2');
       expect(this.store.getState().items.items).not.to.have.key('1');
@@ -183,16 +191,21 @@ describe('Redux - Items', () =>
       this.store.dispatch(requestAddItemSuccess(this.list, newItem));
       this.store.dispatch(requestAddItemSuccess(this.list, otherNewItem));
 
+      itemIds.push(newItem.id);
+      itemIds.push(otherNewItem.id);
+
       expect(this.store.getState().lists.lists[this.list.id].items)
-        .to.deep.eq([newItem.id, otherNewItem.id]);
+        .to.deep.eq(itemIds);
       
       expect(this.store.getState().items.items).to.have.keys('0','2','4','5');
       expect(this.store.getState().items.items).not.to.have.key('1');
 
       this.store.dispatch(requestDeleteItemSuccess(this.list, otherNewItem));
 
+      itemIds = itemIds.filter(id => id != otherNewItem.id);
+
       expect(this.store.getState().lists.lists[this.list.id].items)
-        .to.deep.eq([newItem.id]);
+        .to.deep.eq(itemIds);
     });
   });
 

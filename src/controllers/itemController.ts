@@ -98,8 +98,8 @@ class ItemController
     let { name, purchased } = req.body;
     let item: Item = res.locals.item;
 
-    item.name = name ? name : item.name;
-    item.purchased = purchased ? purchased : item.purchased;
+    item.name = name != undefined ? name : item.name;
+    item.purchased = purchased != undefined ? purchased : item.purchased;
     
     const errors = await validate(item);
     if (errors.length > 0)

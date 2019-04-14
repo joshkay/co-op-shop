@@ -23,6 +23,11 @@ describe('API - List', () =>
     return await http.post(`/list`, list);
   };
 
+  const getOne = async (id: number) =>
+  {
+    return await http.get(`/list/${id}`);
+  }
+
   const getAll = async () =>
   {
     return await http.get(`/list`);
@@ -76,7 +81,7 @@ describe('API - List', () =>
       cy.fixture('lists')
       .then(async (lists) =>
       {
-        await seedLists(lists);
+        let seededLists = await seedLists(lists);
 
         getOtherTestUser().then(async (user) =>
         {
@@ -85,9 +90,15 @@ describe('API - List', () =>
           const res = await getAll();
 
           expect(lists.length).to.eq(res.data.length);
+          
+          lists = seededLists.data.map(list => ({id: list.id, name: list.name}));
+
           res.data.map(list =>
           {
-            expect(list).to.deep.include({name: list.name});  
+            expect(lists).to.deep.include({
+              id: list.id,
+              name: list.name
+            });  
           });
         });
       });
@@ -105,6 +116,62 @@ describe('API - List', () =>
           const res = await getAll();
 
           expect(res.data.length).to.eq(0);
+        });
+      });      
+    });
+  });
+
+  describe.only('GET /list/:listId', () =>
+  {
+    it('should return list along with items', () =>
+    {
+      cy.fixture('lists')
+      .then(async (lists) =>
+      {
+        const seedRes = await seedLists(lists);
+        lists = seedRes.data;
+      
+        const list = lists[0];
+        const res = await getOne(list.id);
+
+        expect(list.items.length).to.eq(res.data.items.length);
+
+        expect(res.data.id).to.eq(list.id);
+        expect(res.data.name).to.eq(list.name);
+
+        expect(res.data.items.length).to.eq(list.items.length);
+        
+        const foundItems = res.data.items.map(item => ({
+          id: item.id,
+          name: item.name,
+          purchased: item.purchased
+        }))
+
+        foundItems.map(item =>
+        {
+          expect(list.items).to.deep.include(item);
+        });
+      });
+    });
+
+    it('should not return lists that belong to another user', () =>
+    {
+      cy.fixture('lists')
+      .then((lists) =>
+      {
+        getOtherTestUser().then(async (user) =>
+        {
+          const seedRes = await seedLists(lists, user);
+          const list = seedRes.data[0];
+
+          try {
+            const res = await getOne(list.id);
+            assert(false);
+          }
+          catch(error)
+          {
+            expect(error.response.status).to.eq(404);
+          }
         });
       });      
     });

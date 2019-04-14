@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Theme } from '@material-ui/core';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles';
+import UserShoppingList from '../containers/UserShoppingList';
 
 const styles = (theme: Theme) => createStyles({
   
@@ -24,9 +25,7 @@ class ListPage extends Component<Props>
     const { classes, match: { params } } = this.props;
 
     return (
-      <div>
-        { params.listId }
-      </div>
+      <UserShoppingList listId={Number(params.listId)} />
     );
   }
 }

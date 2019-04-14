@@ -16,6 +16,12 @@ import {
   REQUEST_UPDATE_ITEM_SUCCESS,
   Item
 } from './types';
+import {
+  REQUEST_LIST_WITH_ITEMS,
+  RECEIVE_LIST_WITH_ITEMS,
+  RECEIVE_LIST_WITH_ITEMS_ERROR,
+  ListsActionTypes
+} from '../lists/types';
 
 const initialState: ItemsState =
 {
@@ -38,17 +44,19 @@ const initialItemState: {
 
 export const itemsReducer = (
   state = initialState,
-  action: ItemsActionTypes
+  action: ItemsActionTypes | ListsActionTypes
 ): ItemsState =>
 {
   switch (action.type)
   {
     case REQUEST_ITEMS:
+    case REQUEST_LIST_WITH_ITEMS:
       return { 
         ...state,
         isFetching: true
       };
     case RECEIVE_ITEMS:
+    case RECEIVE_LIST_WITH_ITEMS:
       const mappedItems = action.items.reduce((accumulator: any, item) =>
       {
         const newItem = itemReducer(initialItemState, action, item);
@@ -65,6 +73,7 @@ export const itemsReducer = (
         items: mappedItems
       };
     case RECEIVE_ITEMS_ERROR:
+    case RECEIVE_LIST_WITH_ITEMS_ERROR:
       return {
         ...state,
         error: action.error,
@@ -117,7 +126,7 @@ export const itemsReducer = (
 
 const itemReducer = (
   state = initialItemState,
-  action: ItemsActionTypes,
+  action: ItemsActionTypes | ListsActionTypes,
   item: Item
 ): {[id: number]: ItemState} =>
 {

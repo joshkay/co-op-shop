@@ -143,7 +143,7 @@ export const updateItem = (list: List, item: Item, updates: ItemUpdates) =>
     dispatch(requestUpdateItem(item, updates));
     try 
     {
-      const res = await http.patch(`/list/${list.id}/item`, updates);
+      const res = await http.patch(`/list/${list.id}/item/${item.id}`, updates);
 
       const updatedItem = res.data;
 
@@ -191,7 +191,7 @@ export const deleteItem = (list: List, item: Item) =>
     dispatch(requestDeleteItem(list, item));
     try 
     {
-      await http.delete(`/list/${list.id}/item`);
+      await http.delete(`/list/${list.id}/item/${item.id}`);
 
       return dispatch(requestDeleteItemSuccess(list, item));
     } 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { withStyles, WithStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { Typography, 
   List as MuiList,
@@ -20,6 +21,12 @@ const styles = (theme: Theme) => createStyles({
       padding: 2 * theme.spacing.unit,
     },
   },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit',
+    position: 'relative',
+    display: 'flex'
+  }
 });
 
 interface Props extends WithStyles<typeof styles>
@@ -47,10 +54,10 @@ class ShoppingListsGroup extends Component<Props, State>
       showNewList: false
     };
 
-    this.handleNewList = this.handleNewList.bind(this);
+    this.handleNewListVisibility = this.handleNewListVisibility.bind(this);
   }
 
-  handleNewList()
+  handleNewListVisibility()
   {
     this.setState({
       showNewList: true
@@ -75,21 +82,23 @@ class ShoppingListsGroup extends Component<Props, State>
 
     const listItems = lists ? lists.map((list, index) =>
     (
-      <ListItem key={index} button>
-        <ListItemText
-          primary={list.name}
-        />
-      </ListItem>
+      <Link to={`/list/${list.id}`} key={index} className={classes.link}>
+        <ListItem button>
+          <ListItemText
+            primary={list.name}
+          />
+        </ListItem>
+      </Link>
     )) : null;
 
     const addButton = allowAdd && !showNewList ? (
-      <Button color="primary" variant="contained" onClick={this.handleNewList}
+      <Button color="primary" variant="contained" onClick={this.handleNewListVisibility}
         data-cy="newList">
         New List
       </Button>
     ) : null;
 
-    const addListItem = showNewList ? (
+    const addListListItem = showNewList ? (
       <ListItem>
         <NewListForm addList={addList} />
       </ListItem>
@@ -99,7 +108,7 @@ class ShoppingListsGroup extends Component<Props, State>
       <Grid item xs={12}>
         <Paper>
           <MuiList>
-            {addListItem}
+            {addListListItem}
             {listItems}
           </MuiList>
         </Paper>

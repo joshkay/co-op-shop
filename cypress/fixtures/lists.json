@@ -1,5 +1,6 @@
 [
   {
+    "id": 0,
     "name": "list1",
     "items": 
     [
@@ -16,9 +17,11 @@
     ]
   },
   {
+    "id": 1,
     "name": "list2"
   },
   {
+    "id": 2,
     "name": "list3",
     "items": 
     [

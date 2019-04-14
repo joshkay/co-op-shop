@@ -83,6 +83,30 @@ class ListController
 
     res.send(lists);
   }
+
+  async getById(req: Request, res: Response)
+  {
+    const listRepository = getRepository(List);
+
+    const listId = req.params.listId;
+    let list: List;
+
+    try
+    {
+      list = await listRepository.findOneOrFail({
+        select: ['id', 'name'],
+        where: { id: listId, user: res.locals.user },
+        relations: ['items']
+      });
+    }
+    catch (error)
+    {
+      res.status(404).send();
+      return;
+    }
+
+    res.send(list);
+  }
 }
 
 export default ListController;

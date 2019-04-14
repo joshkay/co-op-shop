@@ -39,8 +39,8 @@ class ShoppingLists extends Component<Props>
 
     return (
       <main className={classes.main}>
-        <Grid container justify="center">
-          <Grid item data-cy="listUsers" xs={12} md={8} lg={6}>
+        <Grid container alignItems="center" justify="center">
+          <Grid item data-cy="userOwnedLists" xs={12} md={8} lg={6}>
             <ShoppingListsGroup header="Your Lists" lists={lists} 
               allowAdd isAdding={isAdding} addList={addList} error={error} />
           </Grid>

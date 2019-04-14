@@ -19,6 +19,11 @@ router.get('/',
   listController.getAllForUser
 );
 
+router.get('/:listId',
+  ensureAuthenticated,
+  listController.getById
+);
+
 router.use('/:listId/item', item);
 
 export default router;

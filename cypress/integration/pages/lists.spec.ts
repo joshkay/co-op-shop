@@ -23,7 +23,10 @@ describe('Page - Lists', () =>
         method: 'POST',
         url: '/list',
         response: {
-          name: this.newListName
+          id: 0,
+          name: this.newListName,
+          purchased: false,
+          items: []
         }
       });
       cy.route({
@@ -37,11 +40,11 @@ describe('Page - Lists', () =>
 
     it('should show a new list entry when the new list button is clicked', () =>
     {
-      cy.get('[data-cy=listUsers] ul').should('not.exist');
+      cy.get('[data-cy=userOwnedLists] ul').should('not.exist');
 
       cy.get('[data-cy=newList]').click();
 
-      cy.get('[data-cy=listUsers] ul').children()
+      cy.get('[data-cy=userOwnedLists] ul').children()
         .should('have.length', 1);
 
       cy.get('[data-cy=listName]').should('exist');
@@ -52,14 +55,14 @@ describe('Page - Lists', () =>
     {
       cy.get('[data-cy=newList]').click();
 
-      cy.get('[data-cy=listUsers] ul').children()
+      cy.get('[data-cy=userOwnedLists] ul').children()
         .should('have.length', 1);
 
       cy.get('[data-cy=listName] input')
         .type(this.newListName)
         .type('{enter}');
 
-      cy.get('[data-cy=listUsers] ul').children()
+      cy.get('[data-cy=userOwnedLists] ul').children()
         .should('have.length', 1)
         .and('contain', this.newListName);
     });
@@ -71,7 +74,7 @@ describe('Page - Lists', () =>
         .type(this.newListName)
         .type('{enter}');
 
-      cy.get('[data-cy=listUsers] ul').children()
+      cy.get('[data-cy=userOwnedLists] ul').children()
         .should('have.length', 1)
         .and('contain', this.newListName);
     });
@@ -84,7 +87,7 @@ describe('Page - Lists', () =>
 
       cy.get('[data-cy=newListSubmit]').click();
 
-      cy.get('[data-cy=listUsers] ul').children()
+      cy.get('[data-cy=userOwnedLists] ul').children()
         .should('have.length', 1)
         .and('contain', this.newListName);
     });
@@ -92,7 +95,7 @@ describe('Page - Lists', () =>
 
   context('stubbed GET /list', () =>
   {
-    it('loads lists', () =>
+    beforeEach(() =>
     {
       cy.visit('/');
       login();
@@ -106,12 +109,22 @@ describe('Page - Lists', () =>
         });
       });
       cy.visit('/lists');
+    });
 
-      cy.get('[data-cy=listUsers] ul').children()
+    it('loads lists', () =>
+    {
+      cy.get('[data-cy=userOwnedLists] ul').children()
         .should('have.length', 3)
         .and('contain', 'list1')
         .and('contain', 'list2')
         .and('contain', 'list3');
+    });
+
+    it('visits the specific list page when', () =>
+    {
+      cy.get('[data-cy=userOwnedLists] ul').children().first().next().click();
+
+      cy.location('pathname').should('eq', '/list/1');
     });
   });
 
@@ -149,5 +162,25 @@ describe('Page - Lists', () =>
       cy.get('main').should('contain', 'Your Lists');
       cy.get('[data-cy=newList]').should('exist');
     });
+
+    it('should show a header for user lists and a button to add new list', () =>
+    {
+      cy.get('main').should('contain', 'Your Lists');
+      cy.get('[data-cy=newList]').should('exist');
+    });
+
+    it('adds a new list by typing enter', () =>
+    {
+      const testListName = "test list haha";
+      
+      cy.get('[data-cy=newList]').click();
+      cy.get('[data-cy=listName] input')
+        .type(testListName)
+        .type('{enter}');
+
+      cy.get('[data-cy=userOwnedLists] ul').children()
+        .should('have.length', 1)
+        .and('contain', testListName);
+    });
   });
-});
+}); 
