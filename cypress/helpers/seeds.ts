@@ -4,7 +4,7 @@ export const seedUser = (user) =>
 (
   cy.request(
   {
-    url: '/seed/user',
+    url: '/api/seed/user',
     method: 'POST',
     body: user,
   })
@@ -12,5 +12,5 @@ export const seedUser = (user) =>
 
 export const seedLists = async (lists: [], user = null) =>
 {
-  return await http.post('/seed/list', {lists, user});
+  return await http.post('/api/seed/list', {lists, user});
 }

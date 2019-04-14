@@ -1,7 +1,7 @@
 export const sync = () =>
 {
   return cy.request({
-    url: '/seed/sync',
+    url: '/api/seed/sync',
     method: 'POST'
   });
 }

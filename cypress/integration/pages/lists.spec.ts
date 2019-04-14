@@ -1,6 +1,7 @@
 /// <reference types="cypress"/>
 
 import { login, logout } from '../../helpers/auth';
+import { sync } from '../../helpers';
 
 describe('Page - Lists', () =>
 {
@@ -9,7 +10,7 @@ describe('Page - Lists', () =>
     
   });
 
-  context('stubbed POST /lists', () =>
+  context('stubbed POST /api/lists', () =>
   {
     beforeEach(() =>
     {
@@ -21,7 +22,7 @@ describe('Page - Lists', () =>
       cy.server();
       cy.route({
         method: 'POST',
-        url: '/list',
+        url: '/api/list',
         response: {
           id: 0,
           name: this.newListName,
@@ -31,7 +32,7 @@ describe('Page - Lists', () =>
       });
       cy.route({
         method: 'GET',
-        url: '/list',
+        url: '/api/list',
         response: []
       });
 
@@ -93,7 +94,7 @@ describe('Page - Lists', () =>
     });
   });
 
-  context('stubbed GET /list', () =>
+  context('stubbed GET /api/list', () =>
   {
     beforeEach(() =>
     {
@@ -104,7 +105,7 @@ describe('Page - Lists', () =>
       {
         cy.route({
           method: 'GET',
-          url: '/list',
+          url: '/api/list',
           response: lists
         });
       });
@@ -148,6 +149,7 @@ describe('Page - Lists', () =>
     beforeEach(() =>
     {
       cy.visit('/');
+      sync();
       login();
       cy.visit('/lists');
     });
