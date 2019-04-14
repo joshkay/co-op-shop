@@ -14,12 +14,52 @@ import {
   requestUpdateItemFail
 } from '../../../client/src/store/items/actions';
 import { requestAddListSuccess } from '../../../client/src/store/lists/actions';
+import {
+  userUnauthenticated
+} from '../../../client/src/store/users/actions';
 
 describe('Redux - Items', () =>
 {
   beforeEach(() =>
   {
     this.store = configureStore();
+  });
+
+  context('auth', () =>
+  {
+    it('should clear the store on logout', () =>
+    {
+      const list: List = {
+        id: 0,
+        name: 'redux',
+        items: []
+      };
+  
+      const items: Item[] = 
+      [{
+        id: 0,
+        name: 'action',
+        purchased: false
+      },
+      {
+        id: 1,
+        name: 'type',
+        purchased: true
+      },
+      {
+        id: 2,
+        name: 'reducer',
+        purchased: false
+      }];
+  
+      this.store.dispatch(receiveItems(list, items));
+
+      expect(Object.keys(this.store.getState().items.items).length).to.eq(items.length);
+
+      this.store.dispatch(userUnauthenticated());
+
+      expect(Object.keys(this.store.getState().items.items).length).to.eq(0);
+    });
   });
 
   context('fetching', () =>

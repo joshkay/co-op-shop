@@ -22,6 +22,10 @@ import {
   RECEIVE_LIST_WITH_ITEMS_ERROR,
   ListsActionTypes
 } from '../lists/types';
+import { 
+  USER_UNAUTHENTICATED,
+  UserActionTypes
+} from '../users/types';
 
 const initialState: ItemsState =
 {
@@ -44,7 +48,7 @@ const initialItemState: {
 
 export const itemsReducer = (
   state = initialState,
-  action: ItemsActionTypes | ListsActionTypes
+  action: ItemsActionTypes | ListsActionTypes | UserActionTypes
 ): ItemsState =>
 {
   switch (action.type)
@@ -118,6 +122,11 @@ export const itemsReducer = (
         ...state,
         isAdding: false,
         items
+      };
+    case USER_UNAUTHENTICATED:
+      return {
+        ...state,
+        items: {}
       };
     default:
       return state;
