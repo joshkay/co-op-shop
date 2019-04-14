@@ -109,18 +109,21 @@ interface RequestUpdateItemFailAction
 interface RequestDeleteItemAction
 {
   type: typeof REQUEST_DELETE_ITEM;
+  list: List;
   item: Item;
 }
 
 interface RequestDeleteItemSuccessAction
 {
   type: typeof REQUEST_DELETE_ITEM_SUCCESS;
+  list: List;
   item: Item;
 }
 
 interface RequestDeleteItemFailAction
 {
   type: typeof REQUEST_DELETE_ITEM_FAIL;
+  list: List
   item: Item;
   error: string;
 }

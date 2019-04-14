@@ -87,7 +87,7 @@ describe('API - List', () =>
           expect(lists.length).to.eq(res.data.length);
           res.data.map(list =>
           {
-            expect(lists).to.deep.include({name: list.name});  
+            expect(list).to.deep.include({name: list.name});  
           });
         });
       });

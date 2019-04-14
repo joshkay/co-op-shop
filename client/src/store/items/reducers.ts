@@ -62,10 +62,7 @@ export const itemsReducer = (
         ...state,
         error: null,
         isFetching: false,
-        items: {
-          ...state.items,
-          ...mappedItems
-        }
+        items: mappedItems
       };
     case RECEIVE_ITEMS_ERROR:
       return {

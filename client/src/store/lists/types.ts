@@ -3,14 +3,16 @@ export interface ListsState
   isFetching: boolean;
   isAdding: boolean;
   error: string | null;
-  lists: List[];
+  lists: {
+    [id: number]: List
+  }
 }
 
 export interface List
 {
-  id?: number;
+  id: number;
   name: string;
-  items?: number[];
+  items: number[];
 }
 
 export const REQUEST_LISTS = 'REQUEST_LISTS';

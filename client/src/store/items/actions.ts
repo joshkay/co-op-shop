@@ -156,26 +156,29 @@ export const updateItem = (list: List, item: Item, updates: ItemUpdates) =>
   }
 };
 
-export const requestDeleteItem = (item: Item): ItemsActionTypes =>
+export const requestDeleteItem = (list: List, item: Item): ItemsActionTypes =>
 {
   return {
     type: REQUEST_DELETE_ITEM,
+    list,
     item
   };
 };
 
-export const requestDeleteItemSuccess = (item: Item): ItemsActionTypes =>
+export const requestDeleteItemSuccess = (list: List, item: Item): ItemsActionTypes =>
 {
   return {
     type: REQUEST_DELETE_ITEM_SUCCESS,
+    list,
     item
   }
 };
 
-export const requestDeleteItemFail = (item: Item, error: string): ItemsActionTypes =>
+export const requestDeleteItemFail = (list: List, item: Item, error: string): ItemsActionTypes =>
 {
   return {
     type: REQUEST_DELETE_ITEM_FAIL,
+    list,
     item,
     error
   }
@@ -185,16 +188,16 @@ export const deleteItem = (list: List, item: Item) =>
 {
   return async (dispatch: Dispatch) =>
   {
-    dispatch(requestDeleteItem(item));
+    dispatch(requestDeleteItem(list, item));
     try 
     {
       await http.delete(`/list/${list.id}/item`);
 
-      return dispatch(requestDeleteItemSuccess(item));
+      return dispatch(requestDeleteItemSuccess(list, item));
     } 
     catch (error) 
     {
-      return dispatch(requestDeleteItemFail(item, error));
+      return dispatch(requestDeleteItemFail(list, item, error));
     }
   }
 };
