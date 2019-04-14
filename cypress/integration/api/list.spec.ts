@@ -121,7 +121,7 @@ describe('API - List', () =>
     });
   });
 
-  describe.only('GET /list/:listId', () =>
+  describe('GET /list/:listId', () =>
   {
     it('should return list along with items', () =>
     {

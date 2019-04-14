@@ -160,7 +160,7 @@ describe('Redux - Items', () =>
       expect(this.store.getState().items.items[1].error).to.eq(error);
     });
 
-    it.only('should remove an item from the state', () =>
+    it('should remove an item from the state', () =>
     {
       const newItem: Item = {
         id: 4,

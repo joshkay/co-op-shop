@@ -92,6 +92,9 @@ export const listsReducer = (
         error: action.error
       };
     case REQUEST_ADD_ITEM_SUCCESS:
+      let existingList: any = state.lists[action.list.id];
+      existingList = existingList ? existingList : {items: []};
+      
       return {
         ...state,
         isAdding: false,
@@ -99,9 +102,9 @@ export const listsReducer = (
           ...state.lists,
           [action.list.id]: 
           {
-            ...state.lists[action.list.id],
+            ...existingList,
             items: [
-              ...state.lists[action.list.id].items,
+              ...existingList.items,
               action.item.id
             ]
           }
