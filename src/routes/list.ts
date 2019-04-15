@@ -16,7 +16,7 @@ router.post('/',
 // Get all lists
 router.get('/',
   ensureAuthenticated,
-  listController.getAllForUser
+  listController.getAll
 );
 
 router.get('/:listId',

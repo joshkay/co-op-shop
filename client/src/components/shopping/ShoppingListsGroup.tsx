@@ -31,11 +31,11 @@ const styles = (theme: Theme) => createStyles({
 
 interface Props extends WithStyles<typeof styles>
 {
-  allowAdd: boolean;
+  allowAdd?: boolean;
   header: string;
-  isAdding: boolean;
-  error: string | null;
-  addList: (name: string) => void;
+  isAdding?: boolean;
+  error?: string | null;
+  addList?: (name: string) => void;
   lists: List[];
 }
 
@@ -106,7 +106,7 @@ class ShoppingListsGroup extends Component<Props, State>
       </Button>
     ) : null;
 
-    const addListListItem = showNewList ? (
+    const addListListItem = addList && showNewList ? (
       <ListItem>
         <NewListForm addList={addList} cancel={this.handleNewListCancel} 
           form="NewItem" multiline={false} />

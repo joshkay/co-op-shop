@@ -39,14 +39,24 @@ class ShoppingLists extends Component<Props>
       addList, error
     } = this.props;
 
+    const userLists = lists.filter(list => list.owned);
+    const otherLists = lists.filter(list => !list.owned);
+
+    const otherListsGroup = otherLists.length > 0 ? (
+      <Grid item data-cy="otherOwnedLists" xs={12} md={8} lg={6}>
+        <ShoppingListsGroup header="Other Lists" lists={otherLists} />
+      </Grid>
+    ) : null;
+
     return (
       <main className={classes.main}>
-        <Grid container alignItems="center" justify="center">
+        <Grid container alignItems="flex-start" justify="space-evenly" spacing={24}>
           <Grid item data-cy="userOwnedLists" xs={12} md={8} lg={6}>
-            <ShoppingListsGroup header="Your Lists" lists={lists} 
+            <ShoppingListsGroup header="Your Lists" lists={userLists} 
               isAdding={isAdding} addList={addList}
               allowAdd error={error} />
           </Grid>
+          {otherListsGroup}          
         </Grid>
       </main>
     );

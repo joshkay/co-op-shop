@@ -13,6 +13,7 @@ export interface ListsState
 export interface List
 {
   isViewing?: boolean;
+  owned: boolean;
   id: number;
   name: string;
   items: number[];

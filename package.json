@@ -11,6 +11,7 @@
       "heroku-postbuild": "cd client && npm install && npm run build",
       "test": "SET CYPRESS_baseUrl=http://localhost:5000&& cypress run",
       "test-gui": "cypress open",
+      "test-gui-build": "SET CYPRESS_baseUrl=http://localhost:5000&&cypress open",
       "typeorm": "ts-node ./node_modules/typeorm/cli.js",
       "db:reset": "npm run typeorm schema:drop",
       "db:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",

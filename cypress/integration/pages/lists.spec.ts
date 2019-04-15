@@ -10,7 +10,7 @@ describe('Page - Lists', () =>
     
   });
 
-  context.only('stubbed POST /api/lists', () =>
+  context('stubbed POST /api/lists', () =>
   {
     beforeEach(() =>
     {
