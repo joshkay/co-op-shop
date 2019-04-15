@@ -144,7 +144,8 @@ export const addList = (name: string) =>
     {
       const res = await http.post(`/api/list`, {name});
 
-      const list = res.data;
+      let list = res.data;
+      list.owned = true;
 
       return dispatch(requestAddListSuccess(list));
     } 

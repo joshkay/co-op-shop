@@ -63,6 +63,35 @@ class ListController
     res.send(listData);
   }
 
+  async getAll(req: Request, res: Response)
+  {
+    const listRepository = getRepository(List);
+    let lists: List[];
+    try
+    {
+      lists = await listRepository.find({
+        select: ['id', 'name' ],
+        order: { createdAt: 'DESC' },
+        relations: ['user']
+      });
+    }
+    catch (error)
+    {
+      res.status(401).send();
+      return;
+    }
+
+    const responseLists = (<any>lists).map(list =>
+    {
+      list.owned = list.user.id == res.locals.user.id;
+      delete list.user;
+
+      return list;
+    });
+
+    res.send(responseLists);
+  }
+
   async getAllForUser(req: Request, res: Response)
   {
     const listRepository = getRepository(List);
@@ -85,6 +114,30 @@ class ListController
   }
 
   async getById(req: Request, res: Response)
+  {
+    const listRepository = getRepository(List);
+
+    const listId = req.params.listId;
+    let list: List;
+
+    try
+    {
+      list = await listRepository.findOneOrFail({
+        select: ['id', 'name'],
+        where: { id: listId, user: res.locals.user },
+        relations: ['items']
+      });
+    }
+    catch (error)
+    {
+      res.status(404).send();
+      return;
+    }
+
+    res.send(list);
+  }
+
+  async getByIdForUser(req: Request, res: Response)
   {
     const listRepository = getRepository(List);
 

@@ -13,13 +13,13 @@ import { User } from './User';
 import { Item } from './Item';
 
 @Entity()
-@Unique(["name", "user"])
+//@Unique(["name", "user"])
 export class List 
 {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   @IsNotEmpty()
   name: string;
 
