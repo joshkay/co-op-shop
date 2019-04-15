@@ -2,10 +2,12 @@ import { connect } from 'react-redux';
 import { AppState } from '../store';
 import ShoppingList from '../components/shopping/ShoppingList';
 import { 
-  fetchItems, addItem, updateItem, deleteItem 
+  fetchItems, addItem, updateItem, deleteItem
 } from '../store/items/actions';
 import {
-  fetchListWithItems
+  fetchListWithItems,
+  startViewingList,
+  stopViewingList
 } from '../store/lists/actions';
 
 interface Props
@@ -33,5 +35,6 @@ const mapStateToProps = (state: AppState, ownProps: Props) =>
 
 export default connect(
   mapStateToProps,
-  { fetchListWithItems, fetchItems, addItem, updateItem, deleteItem }
+  { fetchListWithItems, fetchItems, addItem, updateItem, 
+    deleteItem, startViewingList, stopViewingList }
 )(ShoppingList);

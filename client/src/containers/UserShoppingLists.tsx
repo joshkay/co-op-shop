@@ -1,7 +1,12 @@
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 import ShoppingLists from '../components/shopping/ShoppingLists';
-import { fetchLists, addList } from '../store/lists/actions';
+import { 
+  fetchLists, 
+  addList,
+  startViewingList,
+  stopViewingList
+} from '../store/lists/actions';
 
 const mapStateToProps = (state: AppState) =>
 {
@@ -21,5 +26,5 @@ const mapStateToProps = (state: AppState) =>
 
 export default connect(
   mapStateToProps,
-  { fetchLists, addList }
+  { fetchLists, addList, startViewingList, stopViewingList }
 )(ShoppingLists);

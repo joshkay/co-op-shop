@@ -1,12 +1,25 @@
 import * as io from 'socket.io';
 import * as http from 'http';
 import { verifyAndDecodeJwt } from './auth';
+import {
+  JOIN_LIST,
+  LEAVE_LIST,
+  ITEM_EVENT
+} from '../client/src/socket/actions';
+import {
+  ItemsActionTypes
+} from '../client/src/store/items/types';
+
+let appSocketServer: io.Server;
+let appSocket: io.Socket;
+
+const listRoomName = (listId) => `list/${listId}`;
 
 export const createSocketConnection = (server: http.Server): io.Server =>
 {
-  let socketServer: io.Server = io(server);
+  appSocketServer = io(server);
 
-  socketServer.use((socket: io.Socket, next) =>
+  appSocketServer.use((socket: io.Socket, next) =>
   {
     if (socket.handshake.query)
     {
@@ -34,15 +47,52 @@ export const createSocketConnection = (server: http.Server): io.Server =>
     next(new Error('Authentication error'));
   });
 
-  socketServer.on('connection', (socket) =>
+  appSocketServer.on('connection', (socket) =>
   {
+    appSocket = socket;
     console.log('user connected');
 
     socket.on('disconnect', () =>
     {
       console.log('user disconnected');
     });
+
+    socket.on(JOIN_LIST, (listId) =>
+    {
+      socket.join(listRoomName(listId));
+    });
+
+    socket.on(LEAVE_LIST, (listId) =>
+    {
+      socket.leave(listRoomName(listId));
+    });
   });
 
-  return socketServer;
+  return appSocketServer;
+}
+
+export const sendItemEvent = (action) =>
+{
+  appSocketServer.to(listRoomName(action.list.id))
+    .emit(ITEM_EVENT, action);
+}
+
+export const joinRoom = (name: string) =>
+{
+  appSocket.join(name);
+}
+
+export const leaveRoom = (name: string) =>
+{
+  appSocket.leave(name);
+}
+
+export const getSocket = () =>
+{
+  return appSocket;
+}
+
+export const getSocketServer = () =>
+{
+  return appSocketServer;
 }

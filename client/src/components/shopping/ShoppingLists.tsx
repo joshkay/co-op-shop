@@ -35,14 +35,17 @@ class ShoppingLists extends Component<Props>
 
   render()
   {
-    const { classes, lists, isAdding, addList, error } = this.props;
+    const { classes, lists, isAdding, 
+      addList,  error
+    } = this.props;
 
     return (
       <main className={classes.main}>
         <Grid container alignItems="center" justify="center">
           <Grid item data-cy="userOwnedLists" xs={12} md={8} lg={6}>
             <ShoppingListsGroup header="Your Lists" lists={lists} 
-              allowAdd isAdding={isAdding} addList={addList} error={error} />
+              isAdding={isAdding} addList={addList}
+              allowAdd error={error} />
           </Grid>
         </Grid>
       </main>

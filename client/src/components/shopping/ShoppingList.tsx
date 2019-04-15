@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { withStyles, WithStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { List } from '../../store/lists/types';
@@ -51,6 +52,8 @@ interface Props extends WithStyles<typeof styles>
   addItem: (list: List, name: string) => void;
   updateItem: (list: List, item: Item, updates: ItemUpdates) => void;
   deleteItem: (list: List, item: Item) => void;
+  startViewingList: (list: List) => void;
+  stopViewingList: (list: List) => void;
 }
 
 interface State
@@ -78,7 +81,11 @@ class ShoppingList extends Component<Props, State>
 
   componentDidMount()
   {
-    const { fetchItems, fetchListWithItems, list, listId } = this.props;
+    const { fetchItems, 
+      fetchListWithItems, 
+      list, 
+      listId,
+      startViewingList } = this.props;
 
     if (list != undefined)
     {
@@ -90,17 +97,32 @@ class ShoppingList extends Component<Props, State>
     }
   }
 
+  componentWillUnmount()
+  {
+    const { stopViewingList, list } = this.props;
+
+    if (list !== undefined)
+    {
+      stopViewingList(list);
+    } 
+  }
+
   componentDidUpdate(oldProps: Props)
   {
-    // item was added successfully if isAdding changed from true -> false with no error
     if (!this.props.error && oldProps.isAdding && !this.props.isAdding)
     {
       this.setState({
         showNewList: false
       });
     }
-    if (this.props.isFetching != oldProps.isFetching)
+
+    if (this.state.initialFetch && this.props.isFetching != oldProps.isFetching)
     {
+      if (this.props.list !== undefined)
+      {
+        this.props.startViewingList(this.props.list);
+      }
+      
       this.setState({
         initialFetch: false
       });
@@ -150,7 +172,6 @@ class ShoppingList extends Component<Props, State>
     {
       return (<Redirect to='/lists' />)
     }
-
 
     const listItems = items ? items.map((item, index) =>
     (

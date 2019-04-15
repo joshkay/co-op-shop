@@ -2,14 +2,16 @@ import * as io from 'socket.io-client';
 import { getToken } from '../auth';
 import { store } from '../store';
 import { userUnauthenticated } from '../store/users/actions';
+import { ITEM_EVENT, JOIN_LIST, LEAVE_LIST } from './actions';
 
 export const initializeSocket = () =>
 {
   let socket = io({query: {token: getToken()}});
-  
+
     // dispatch all item events
-  socket.on('item', (payload: any) =>
+  socket.on(ITEM_EVENT, (payload: any) =>
   {
+    console.log(ITEM_EVENT);
     store.dispatch(payload);
   });
 
@@ -31,5 +33,18 @@ export const connectSocket = () =>
 {
   socket = initializeSocket();
 }
+
+export const joinList = (id: number) =>
+{
+  console.log(JOIN_LIST);
+  socket.emit(JOIN_LIST, id);
+}
+
+export const leaveList = (id: number) =>
+{
+  console.log(LEAVE_LIST);
+  socket.emit(LEAVE_LIST, id);
+}
+
 
 export default socket;

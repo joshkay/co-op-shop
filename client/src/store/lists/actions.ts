@@ -10,10 +10,15 @@ import {
   REQUEST_ADD_LIST,
   REQUEST_ADD_LIST_FAIL,
   REQUEST_ADD_LIST_SUCCESS,
+  START_VIEWING_LIST,
+  STOP_VIEWING_LIST,
   ListsActionTypes,
   List
 } from './types';
 import { Item } from '../items/types';
+import {
+  joinList, leaveList
+} from '../../socket';
 
 export const requestLists = (): ListsActionTypes =>
 {
@@ -149,3 +154,21 @@ export const addList = (name: string) =>
     }
   }
 };
+
+export const startViewingList = (list: List): ListsActionTypes =>
+{
+  joinList(list.id);
+  return {
+    type: START_VIEWING_LIST,
+    list
+  };
+}
+
+export const stopViewingList = (list: List): ListsActionTypes =>
+{
+  leaveList(list.id);
+  return {
+    type: STOP_VIEWING_LIST,
+    list
+  };
+}
