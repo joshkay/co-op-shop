@@ -6,6 +6,7 @@ import { AddressInfo } from "net";
 import "reflect-metadata";
 import { createConnection, ConnectionOptions } from "typeorm";
 import * as PostgressConnectionStringParser from "pg-connection-string";
+import { createSocketConnection } from './socket';
 
 const port = process.env.PORT || 5000;
 
@@ -40,6 +41,8 @@ const init = async () =>
   const app = express();
 
   let server: http.Server = app.listen(port);
+
+  createSocketConnection(server);
   
   mainConfig.init(app, express, server);
   clientConfig.init(app, express);

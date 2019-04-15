@@ -12,6 +12,7 @@ export interface ListsState
 
 export interface List
 {
+  isViewing?: boolean;
   id: number;
   name: string;
   items: number[];
@@ -28,6 +29,9 @@ export const RECEIVE_LIST_WITH_ITEMS_ERROR = 'RECEIVE_LIST_WITH_ITEMS_ERROR';
 export const REQUEST_ADD_LIST = 'REQUEST_ADD_LIST';
 export const REQUEST_ADD_LIST_SUCCESS = 'REQUEST_ADD_LIST_SUCCESS';
 export const REQUEST_ADD_LIST_FAIL = 'REQUEST_ADD_LIST_FAIL';
+
+export const START_VIEWING_LIST = 'START_VIEWING_LIST';
+export const STOP_VIEWING_LIST = 'STOP_VIEWING_LIST';
 
 interface RequestListsAction
 {
@@ -83,6 +87,18 @@ interface RequestAddListFailAction
   error: string;
 }
 
+interface StartViewingListAction
+{
+  type: typeof START_VIEWING_LIST,
+  list: List
+}
+
+interface StopViewingListAction
+{
+  type: typeof STOP_VIEWING_LIST,
+  list: List
+}
+
 export type ListsActionTypes = RequestListsAction |
   ReceiveListsAction |
   ReceiveListsErrorAction |
@@ -91,4 +107,6 @@ export type ListsActionTypes = RequestListsAction |
   ReceiveListWithItemsErrorAction |
   RequestAddListAction |
   RequestAddListSuccessAction |
-  RequestAddListFailAction;
+  RequestAddListFailAction |
+  StartViewingListAction |
+  StopViewingListAction;

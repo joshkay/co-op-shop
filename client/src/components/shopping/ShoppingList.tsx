@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { withStyles, WithStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { List } from '../../store/lists/types';
@@ -16,6 +17,7 @@ import {
 } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 import { Item, ItemState, ItemUpdates } from '../../store/items/types';
+import { Redirect } from 'react-router';
 
 const styles = (theme: Theme) => createStyles({
   main: 
@@ -50,10 +52,13 @@ interface Props extends WithStyles<typeof styles>
   addItem: (list: List, name: string) => void;
   updateItem: (list: List, item: Item, updates: ItemUpdates) => void;
   deleteItem: (list: List, item: Item) => void;
+  startViewingList: (list: List) => void;
+  stopViewingList: (list: List) => void;
 }
 
 interface State
 {
+  initialFetch: boolean;
   showNewList: boolean;
 }
 
@@ -64,7 +69,8 @@ class ShoppingList extends Component<Props, State>
     super(props);
 
     this.state = {
-      showNewList: false
+      showNewList: false,
+      initialFetch: true
     };
 
     this.handleNewListVisibility = this.handleNewListVisibility.bind(this);
@@ -75,7 +81,11 @@ class ShoppingList extends Component<Props, State>
 
   componentDidMount()
   {
-    const { fetchItems, fetchListWithItems, list, listId } = this.props;
+    const { fetchItems, 
+      fetchListWithItems, 
+      list, 
+      listId,
+      startViewingList } = this.props;
 
     if (list != undefined)
     {
@@ -87,13 +97,34 @@ class ShoppingList extends Component<Props, State>
     }
   }
 
+  componentWillUnmount()
+  {
+    const { stopViewingList, list } = this.props;
+
+    if (list !== undefined)
+    {
+      stopViewingList(list);
+    } 
+  }
+
   componentDidUpdate(oldProps: Props)
   {
-    // item was added successfully if isAdding changed from true -> false with no error
     if (!this.props.error && oldProps.isAdding && !this.props.isAdding)
     {
       this.setState({
         showNewList: false
+      });
+    }
+
+    if (this.state.initialFetch && this.props.isFetching != oldProps.isFetching)
+    {
+      if (this.props.list !== undefined)
+      {
+        this.props.startViewingList(this.props.list);
+      }
+      
+      this.setState({
+        initialFetch: false
       });
     }
   }
@@ -134,8 +165,13 @@ class ShoppingList extends Component<Props, State>
 
   render()
   {
-    const { classes, list, items, isAdding, error } = this.props;
-    const { showNewList } = this.state;
+    const { classes, list, items, isAdding, isFetching, error } = this.props;
+    const { initialFetch, showNewList } = this.state;
+
+    if (list === undefined && !initialFetch && !isFetching)
+    {
+      return (<Redirect to='/lists' />)
+    }
 
     const listItems = items ? items.map((item, index) =>
     (

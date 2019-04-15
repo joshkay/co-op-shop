@@ -3,6 +3,7 @@ import { validate } from 'class-validator';
 import { getRepository } from 'typeorm';
 import { Item } from '../entity/Item';
 import { List } from '../entity/List';
+import { sendItemEvent } from '../socket';
 
 import {
   REQUEST_ADD_ITEM_SUCCESS, REQUEST_DELETE_ITEM_SUCCESS, REQUEST_UPDATE_ITEM_SUCCESS
@@ -35,6 +36,7 @@ class ItemController
   async create(req: Request, res: Response)
   {
     let { name } = req.body;
+    console.log(name);
     const list = res.locals.list;
 
     let item = new Item();
@@ -61,16 +63,11 @@ class ItemController
 
     res.send(item);
 
-    if (res.locals.socketio)
-    {
-      res.locals.socketio.emit('item', 
-        {
-          type: REQUEST_ADD_ITEM_SUCCESS,
-          list,
-          item
-        }
-      );
-    }
+    sendItemEvent({
+      type: REQUEST_ADD_ITEM_SUCCESS,
+      list,
+      item
+    });
   }
 
   async getAllForList(req: Request, res: Response)
@@ -113,16 +110,11 @@ class ItemController
     
     res.status(200).send();
 
-    if (res.locals.socketio)
-    {
-      res.locals.socketio.emit('item',
-        {
-          type: REQUEST_DELETE_ITEM_SUCCESS,
-          list,
-          item
-        }
-      );
-    }
+    sendItemEvent({
+      type: REQUEST_DELETE_ITEM_SUCCESS,
+      list,
+      item
+    });
   }
 
   async update(req: Request, res: Response)
@@ -154,16 +146,11 @@ class ItemController
 
     res.send(item);
 
-    if (res.locals.socketio)
-    {
-      res.locals.socketio.emit('item', 
-        {
-          type: REQUEST_UPDATE_ITEM_SUCCESS,
-          list,
-          item
-        }
-      );
-    }
+    sendItemEvent({
+      type: REQUEST_UPDATE_ITEM_SUCCESS,
+      list,
+      item
+    });
   }
 }
 

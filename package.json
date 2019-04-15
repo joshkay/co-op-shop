@@ -6,9 +6,10 @@
    "scripts": {
       "start": "tsc && node build/src/server.js",
       "dev": "SET NODE_ENV=development&& node --inspect=5858 -r ts-node/register src/server.ts",
-      "prod": "SET NODE_ENV=production&&npm run start",
-      "build": "cd client && npm install && npm run build",
-      "test": "cypress run",
+      "test-server": "SET NODE_ENV=testing&&npm run build && npm run start",
+      "build": "cd client && npm run build",
+      "heroku-postbuild": "cd client && npm install && npm run build",
+      "test": "SET CYPRESS_baseUrl=http://localhost:5000&& cypress run",
       "test-gui": "cypress open",
       "typeorm": "ts-node ./node_modules/typeorm/cli.js",
       "db:reset": "npm run typeorm schema:drop",

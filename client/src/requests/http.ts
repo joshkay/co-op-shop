@@ -11,6 +11,7 @@ const http = axios.create({
 http.interceptors.request.use(
   (config) => {
     const token = getToken();
+    console.log('hello');
     if (token)
     {
       if (isTokenExpired(token))
@@ -25,6 +26,7 @@ http.interceptors.request.use(
     return config;
   },
   (error) => {
+    console.log('opa');
     return Promise.reject(error);
   }
 );

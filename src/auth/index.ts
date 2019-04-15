@@ -16,4 +16,19 @@ export const createJwt = (userId: number, email: string): string =>
   );
 }
 
+export const verifyAndDecodeJwt = (token: string) =>
+{
+  let jwtPayload = null;
+  try
+  {
+    jwtPayload = <any>jwt.verify(token, process.env.JWTSecret);
+  } 
+  catch (error)
+  {
+    return null;
+  }
+  
+  return jwtPayload;
+}
+
 export const getJwt = clientGetJwt;

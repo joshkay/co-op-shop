@@ -30,7 +30,6 @@ export const userReducer = (
   switch (action.type)
   {
     case USER_AUTHENTICATED:
-      storeToken(action.token);
       return { 
         ...state,
         error: null,
@@ -41,7 +40,6 @@ export const userReducer = (
         email: action.email
       };
     case USER_UNAUTHENTICATED:
-      clearToken();
       return { 
         ...state,
         error: null,

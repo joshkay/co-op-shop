@@ -9,7 +9,9 @@ import {
   RECEIVE_LIST_WITH_ITEMS_ERROR,
   REQUEST_ADD_LIST,
   REQUEST_ADD_LIST_FAIL,
-  REQUEST_ADD_LIST_SUCCESS
+  REQUEST_ADD_LIST_SUCCESS,
+  START_VIEWING_LIST,
+  STOP_VIEWING_LIST
 } from './types';
 import {
   ItemsActionTypes, 
@@ -46,6 +48,7 @@ export const listsReducer = (
     case RECEIVE_LISTS:
       const mappedItems = action.lists.reduce((acc: any, list) =>
       {
+        list.items = [];
         acc[list.id] = list;
         return acc;
       }, {});
@@ -138,6 +141,34 @@ export const listsReducer = (
         ...state,
         lists: {}
       };
+    case START_VIEWING_LIST:
+      let startViewingList = state.lists[action.list.id];
+      if (startViewingList)
+      {
+        startViewingList.isViewing = true;
+
+        return {
+          ...state,
+          lists: {
+            ...state.lists, 
+            [action.list.id]: startViewingList
+          }
+        }
+      }
+    case STOP_VIEWING_LIST:
+      let stopViewingList = state.lists[action.list.id];
+      if (stopViewingList)
+      {
+        stopViewingList.isViewing = true;
+
+        return {
+          ...state,
+          lists: {
+            ...state.lists, 
+            [action.list.id]: stopViewingList
+          }
+        }
+      }
     default:
       return state;
   }

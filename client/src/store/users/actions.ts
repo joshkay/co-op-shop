@@ -9,10 +9,21 @@ import {
   USER_CREATE_REQUEST,
   UserActionTypes
 } from './types';
-import { getJwt } from '../../auth';
+import { 
+  getJwt,
+  storeToken, 
+  clearToken
+} from '../../auth';
+import {
+  connectSocket, 
+  disconnectSocket
+} from '../../socket';
 
 export const userAuthenticated = (token: string, email: string): UserActionTypes =>
 {
+  storeToken(token);
+  connectSocket();
+
   return {
     type: USER_AUTHENTICATED,
     token,
@@ -22,6 +33,9 @@ export const userAuthenticated = (token: string, email: string): UserActionTypes
 
 export const userUnauthenticated = (): UserActionTypes =>
 {
+  clearToken();
+  disconnectSocket();
+
   return {
     type: USER_UNAUTHENTICATED
   }
