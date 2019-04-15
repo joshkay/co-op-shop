@@ -9,6 +9,7 @@ class UserController
   async create(req: Request, res: Response)
   {
     let { email, password } = req.body;
+    email = email ? email.toLowerCase() : email;
 
     let user = new User();
     user.email = email;
@@ -42,6 +43,7 @@ class UserController
   async login(req: Request, res: Response)
   {
     let { email, password } = req.body;
+    email = email ? email.toLowerCase() : email;
 
     if (!(email && password))
     {

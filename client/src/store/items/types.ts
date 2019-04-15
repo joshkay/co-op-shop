@@ -21,6 +21,7 @@ export interface ItemState
 export interface Item
 {
   id: number;
+  createdAt?: Date;
   name: string;
   purchased: boolean;
 }

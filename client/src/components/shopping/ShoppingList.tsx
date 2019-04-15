@@ -15,7 +15,10 @@ import {
   IconButton,
   Button
 } from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
+import { Delete, Edit, 
+  LocalGroceryStore,
+  LocalGroceryStoreOutlined 
+} from '@material-ui/icons';
 import { Item, ItemState, ItemUpdates } from '../../store/items/types';
 import { Redirect } from 'react-router';
 
@@ -36,6 +39,18 @@ const styles = (theme: Theme) => createStyles({
     {
       padding: 2 * theme.spacing.unit,
     },
+  },
+  purchasedCheckbox:
+  {
+    color: theme.palette.secondary.dark
+  },
+  purchasedRow:
+  {
+    //backgroundColor: theme.palette.primary.light
+  },
+  nonPurchasedRow:
+  {
+
   }
 });
 
@@ -121,11 +136,11 @@ class ShoppingList extends Component<Props, State>
       if (this.props.list !== undefined)
       {
         this.props.startViewingList(this.props.list);
+
+        this.setState({
+          initialFetch: false
+        });
       }
-      
-      this.setState({
-        initialFetch: false
-      });
     }
   }
   
@@ -173,10 +188,29 @@ class ShoppingList extends Component<Props, State>
       return (<Redirect to='/lists' />)
     }
 
+    if (items)
+    {
+      items.sort((a, b) =>
+      {
+        //const nameA = a.item.name.toLowerCase();
+        //const nameB = b.item.name.toLowerCase();
+        if (a.item.purchased && !b.item.purchased) { return 1; }
+        if (!a.item.purchased && b.item.purchased) { return -1; }
+        if (a.item.createdAt != undefined && b.item.createdAt != undefined)
+        {
+          if (a.item.createdAt > b.item.createdAt) { return -1; }
+          if (a.item.createdAt < b.item.createdAt) { return 1; }
+        }
+        return 0;
+      });
+    }
     const listItems = items ? items.map((item, index) =>
     (
-      <ListItem key={index}>
+      <ListItem key={index} 
+        className={item.item.purchased ? classes.purchasedRow : classes.nonPurchasedRow}>
         <Checkbox
+          icon={<LocalGroceryStoreOutlined />}
+          checkedIcon={<LocalGroceryStore className={classes.purchasedCheckbox} />}
           onChange={(e) => this.handleUpdateItemPurchased(e, item.item)}
           checked={item.item.purchased}
           tabIndex={-1}
