@@ -1,14 +1,26 @@
 import * as io from 'socket.io-client';
 import { getToken } from '../auth';
 import { store } from '../store';
+import { userUnauthenticated } from '../store/users/actions';
 
-const socket = io({query: {token: getToken()}});
-
-// dispatch all item events
-socket.on('item', (payload: any) =>
+export const initializeSocket = () =>
 {
-  store.dispatch(payload);
-});
+  let socket = io({query: {token: getToken()}});
+  
+    // dispatch all item events
+  socket.on('item', (payload: any) =>
+  {
+    store.dispatch(payload);
+  });
+
+  socket.on('disconnect', () =>
+  {
+    store.dispatch(userUnauthenticated());
+  });
+
+  return socket;
+}
+let socket = initializeSocket();
 
 export const disconnectSocket = () =>
 {
@@ -17,7 +29,7 @@ export const disconnectSocket = () =>
 
 export const connectSocket = () =>
 {
-  socket.connect();
+  socket = initializeSocket();
 }
 
 export default socket;

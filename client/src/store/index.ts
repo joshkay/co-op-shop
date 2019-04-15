@@ -12,20 +12,26 @@ const rootReducer = combineReducers({
   items: itemsReducer
 });
 
-let appStore: Store;
-
-appStore = createStore(
-  rootReducer,
-  applyMiddleware(
-    thunkMiddleware
-  )
-);
-
-if (process.env.NODE_ENV !== 'production')
+export const configureStore = () =>
 {
-  appStore.subscribe(() => console.log(appStore.getState()));
+  let store: Store;
+
+  store = createStore(
+    rootReducer,
+    applyMiddleware(
+      thunkMiddleware
+    )
+  );
+  
+  if (process.env.NODE_ENV !== 'production')
+  {
+    store.subscribe(() => console.log(store.getState()));
+  }
+
+  return store;
 }
 
+let appStore: Store = configureStore();
 export const store = appStore;
 
 export type AppState = ReturnType<typeof rootReducer>;

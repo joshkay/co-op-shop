@@ -46,6 +46,7 @@ export const listsReducer = (
     case RECEIVE_LISTS:
       const mappedItems = action.lists.reduce((acc: any, list) =>
       {
+        list.items = [];
         acc[list.id] = list;
         return acc;
       }, {});

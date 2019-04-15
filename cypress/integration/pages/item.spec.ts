@@ -25,7 +25,7 @@ describe('Page - Items', () =>
     });
   });
 
-  describe('authenticated user', () =>
+  describe.only('authenticated user', () =>
   {
     beforeEach(() =>
     {
@@ -39,17 +39,25 @@ describe('Page - Items', () =>
         lists = seedRes.data;
 
         this.list = lists[0];
-
         cy.visit(`/list/${this.list.id}`);
       });
     });
     
     it('should show list items', () =>
-    { 
+    {
+      
+    
       this.list.items.map(item =>
       {
         cy.get('main').should('contain', item.name);
       });
+    });
+
+    it('should redirect to /lists if list is not found', () =>
+    { 
+      cy.visit(`/list/1000`);
+
+      cy.location('pathname').should('eq', '/lists');
     });
   });
 });

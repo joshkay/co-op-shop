@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 import { Item, ItemState, ItemUpdates } from '../../store/items/types';
+import { Redirect } from 'react-router';
 
 const styles = (theme: Theme) => createStyles({
   main: 
@@ -54,6 +55,7 @@ interface Props extends WithStyles<typeof styles>
 
 interface State
 {
+  initialFetch: boolean;
   showNewList: boolean;
 }
 
@@ -64,7 +66,8 @@ class ShoppingList extends Component<Props, State>
     super(props);
 
     this.state = {
-      showNewList: false
+      showNewList: false,
+      initialFetch: true
     };
 
     this.handleNewListVisibility = this.handleNewListVisibility.bind(this);
@@ -94,6 +97,12 @@ class ShoppingList extends Component<Props, State>
     {
       this.setState({
         showNewList: false
+      });
+    }
+    if (this.props.isFetching != oldProps.isFetching)
+    {
+      this.setState({
+        initialFetch: false
       });
     }
   }
@@ -134,8 +143,14 @@ class ShoppingList extends Component<Props, State>
 
   render()
   {
-    const { classes, list, items, isAdding, error } = this.props;
-    const { showNewList } = this.state;
+    const { classes, list, items, isAdding, isFetching, error } = this.props;
+    const { initialFetch, showNewList } = this.state;
+
+    if (list === undefined && !initialFetch && !isFetching)
+    {
+      return (<Redirect to='/lists' />)
+    }
+
 
     const listItems = items ? items.map((item, index) =>
     (

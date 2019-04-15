@@ -18,9 +18,11 @@ export const createSocketConnection = (server: http.Server): io.Server =>
         const { userId, email, exp } = jwtPayload;
         
         const expiresIn = (exp - Date.now() / 1000) * 1000;
+        
+        console.log(`token expires in: ${expiresIn}`);
         const timeout = setTimeout(() => 
         {
-          socket.disconnect(true);
+          socket.disconnect();
         }, expiresIn);
       
         socket.on('disconnect', () => clearTimeout(timeout))
