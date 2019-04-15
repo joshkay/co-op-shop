@@ -78,6 +78,22 @@ Feel free to create a new user or choose from one of the following:
 
 All passwords are **test**
 
+## Installation
+
+To run the backend locally run `npm run dev` in the root directory.
+- Visit the site at http://localhost:3000.
+
+To run the frontend locally run `npm start` in the client directory.
+
+To run the built app locally run `npm run test-server`. 
+- Visit the site at http://localhost:5000.
+
+To run all tests with cypress you have to do the following:
+- Start a server with `npm run test-server` in the root directory.
+- Run `npm test` in the root directory.
+
+There is a bug with cypress/create-react-app/socket.io that would make tests randomly timeout if testing against the non built site.  This is why the above steps are necessary instead of just testing against the dev client and server.
+
 ## Author
 
 Created by Josh Kay
