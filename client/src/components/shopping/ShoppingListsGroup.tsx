@@ -109,7 +109,7 @@ class ShoppingListsGroup extends Component<Props, State>
     const addListListItem = showNewList ? (
       <ListItem>
         <NewListForm addList={addList} cancel={this.handleNewListCancel} 
-          form="NewItem" />
+          form="NewItem" multiline={false} />
       </ListItem>
     ) : null;
 

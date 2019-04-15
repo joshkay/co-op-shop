@@ -29,6 +29,7 @@ interface Props
 {
   cancel(): void;
   addList(name: string): void;
+  multiline: boolean;
 }
 
 type AllProps = Props & StylesProps & InjectedFormProps<{}, Props>;
@@ -49,7 +50,7 @@ class NewListForm extends Component<AllProps>
 
   render()
   {
-    const { classes, handleSubmit, submitting } = this.props;
+    const { classes, handleSubmit, submitting, multiline } = this.props;
 
     return (
       <form className={classes.root} onSubmit={handleSubmit(this.handleSubmit)}>
@@ -59,7 +60,7 @@ class NewListForm extends Component<AllProps>
         </IconButton>
         <Field className={classes.nameField} name="listName" id="listName" autoFocus autoComplete='nope'
           component={TextField} label="Name" validate={[required]} margin="none"
-          data-cy="listName" multiline={true} />
+          data-cy="listName" multiline={multiline} />
         <ListItemSecondaryAction>
           <IconButton aria-label="Submit" data-cy="newListSubmit"
             type="submit" color="primary" disabled={submitting}>

@@ -110,16 +110,16 @@ class ShoppingList extends Component<Props, State>
       });
     }
 
-    if (this.state.initialFetch && this.props.isFetching != oldProps.isFetching)
+    if (this.state.initialFetch && oldProps.isFetching && !this.props.isFetching)
     {
       if (this.props.list !== undefined)
       {
         this.props.startViewingList(this.props.list);
-
-        this.setState({
-          initialFetch: false
-        });
       }
+
+      this.setState({
+        initialFetch: false
+      });
     }
   }
   
@@ -190,7 +190,7 @@ class ShoppingList extends Component<Props, State>
     const addItemListItem = showNewList ? (
       <ListItem>
         <NewListForm addList={this.handleAddItem} cancel={this.handleNewListCancel} 
-          form="NewList" />
+          form="NewList" multiline={true} />
       </ListItem>
     ) : null;
 
