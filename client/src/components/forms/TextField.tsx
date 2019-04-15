@@ -19,10 +19,11 @@ interface TextFieldProps
     error: any;
   };
   custom?: any;
+  multiline?: boolean;
 }
 
 const TextField: React.SFC<TextFieldProps> = ({ className, input, id, name, required = false, 
-  label, margin = "normal", meta: { touched, error }, ...custom }) => 
+  label, margin = "normal", multiline = false, meta: { touched, error }, ...custom }) => 
 {
   const showError: boolean = (touched && error) ? true : false;
   const errorElementId: string = `${id}-text`;
@@ -38,7 +39,7 @@ const TextField: React.SFC<TextFieldProps> = ({ className, input, id, name, requ
         {label}
       </InputLabel>
       {/* value={input.value} onChange={input.onChange} */}
-      <Input id={id} name={name} {...custom} {...input}
+      <Input id={id} name={name} {...custom} {...input} multiline={multiline}
         aria-describedby={error ? errorElementId : ''} />
       {errorElement}
     </FormControl>
