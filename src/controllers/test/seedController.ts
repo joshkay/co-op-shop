@@ -42,7 +42,7 @@ class SeedController
     let user = null;
     if (userData)
     {
-      let user = new User();
+      user = new User();
       user.email = userData.email;
       user.password = userData.password;
 
@@ -50,15 +50,18 @@ class SeedController
 
       const userRepository = getRepository(User);
       try {
-        await userRepository.save(user);
+        user = await userRepository.save(user);
       }
-      catch {}
+      catch (error)
+      {
+        console.log(error);
+      }
     }
     else
     {
       user = res.locals.user;
     }
-
+    
     const newLists = await Promise.all(lists.map(async listData =>
     {
       let list = new List();

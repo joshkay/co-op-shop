@@ -124,7 +124,7 @@ class ListController
     {
       list = await listRepository.findOneOrFail({
         select: ['id', 'name'],
-        where: { id: listId, user: res.locals.user },
+        where: { id: listId },
         relations: ['items']
       });
     }

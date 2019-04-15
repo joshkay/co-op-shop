@@ -83,14 +83,35 @@ describe('API - List', () =>
       {
         let seededLists = await seedLists(lists);
 
+        const res = await getAll();
+
+        expect(lists.length).to.eq(res.data.length);
+        
+        lists = seededLists.data.map(list => ({id: list.id, name: list.name}));
+
+        res.data.map(list =>
+        {
+          expect(lists).to.deep.include({
+            id: list.id,
+            name: list.name
+          });  
+        });
+      });
+    });
+
+    it('should return lists that belong to another user', () =>
+    {
+      cy.fixture('lists')
+      .then((lists) =>
+      {
         getOtherTestUser().then(async (user) =>
         {
-          await seedLists(lists, user);
+          let seededLists = await seedLists(lists, user);
 
           const res = await getAll();
 
           expect(lists.length).to.eq(res.data.length);
-          
+        
           lists = seededLists.data.map(list => ({id: list.id, name: list.name}));
 
           res.data.map(list =>
@@ -100,22 +121,6 @@ describe('API - List', () =>
               name: list.name
             });  
           });
-        });
-      });
-    });
-
-    it('should not return lists that belong to another user', () =>
-    {
-      cy.fixture('lists')
-      .then((lists) =>
-      {
-        getOtherTestUser().then(async (user) =>
-        {
-          await seedLists(lists, user);
-
-          const res = await getAll();
-
-          expect(res.data.length).to.eq(0);
         });
       });      
     });
@@ -154,7 +159,7 @@ describe('API - List', () =>
       });
     });
 
-    it('should not return lists that belong to another user', () =>
+    it('should return lists that belong to another user', () =>
     {
       cy.fixture('lists')
       .then((lists) =>
@@ -164,14 +169,27 @@ describe('API - List', () =>
           const seedRes = await seedLists(lists, user);
           const list = seedRes.data[0];
 
-          try {
-            const res = await getOne(list.id);
-            assert(false);
-          }
-          catch(error)
+          const res = await getOne(list.id);
+
+          console.log(res);
+
+          expect(list.items.length).to.eq(res.data.items.length);
+
+          expect(res.data.id).to.eq(list.id);
+          expect(res.data.name).to.eq(list.name);
+
+          expect(res.data.items.length).to.eq(list.items.length);
+          
+          const foundItems = res.data.items.map(item => ({
+            id: item.id,
+            name: item.name,
+            purchased: item.purchased
+          }))
+
+          foundItems.map(item =>
           {
-            expect(error.response.status).to.eq(404);
-          }
+            expect(list.items).to.deep.include(item);
+          });
         });
       });      
     });

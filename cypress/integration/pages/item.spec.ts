@@ -25,7 +25,7 @@ describe('Page - Items', () =>
     });
   });
 
-  describe.only('authenticated user', () =>
+  describe('authenticated user', () =>
   {
     beforeEach(() =>
     {
@@ -45,8 +45,6 @@ describe('Page - Items', () =>
     
     it('should show list items', () =>
     {
-      
-    
       this.list.items.map(item =>
       {
         cy.get('main').should('contain', item.name);

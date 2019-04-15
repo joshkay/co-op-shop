@@ -26,17 +26,20 @@ describe('Redux - Lists', () =>
       [{
         id: 0,
         name: 'redux',
-        items:[]
+        items:[],
+        owned: true
       },
       {
         id: 1,
         name: 'tests',
-        items:[]
+        items:[],
+        owned: true
       },
       {
         id: 2,
         name: 'functions',
-        items:[]
+        items:[],
+        owned: false
       }];
       
       this.store.dispatch(receiveLists(lists));
@@ -59,17 +62,20 @@ describe('Redux - Lists', () =>
       [{
         id: 0,
         name: 'redux',
-        items:[]
+        items: [],
+        owned: true
       },
       {
         id: 1,
         name: 'tests',
-        items:[]
+        items: [],
+        owned: true
       },
       {
         id: 2,
         name: 'functions',
-        items:[]
+        items: [],
+        owned: false
       }];
 
       this.store.dispatch(receiveLists(lists));
@@ -82,7 +88,8 @@ describe('Redux - Lists', () =>
       {
         id: 5,
         name: 'more',
-        items:[]
+        items: [],
+        owned: false
       };
   
       this.store.dispatch(receiveLists([anotherList]));
@@ -102,12 +109,14 @@ describe('Redux - Lists', () =>
       [{
         id: 0,
         name: 'action',
-        items:[]
+        items: [],
+        owned: true
       },
       {
         id: 1,
         name: 'type',
-        items:[]
+        items: [],
+        owned: false
       }];
 
       this.store.dispatch(requestAddListSuccess(lists[0]));

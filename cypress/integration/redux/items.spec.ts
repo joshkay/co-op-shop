@@ -32,7 +32,8 @@ describe('Redux - Items', () =>
       const list: List = {
         id: 0,
         name: 'redux',
-        items: []
+        items: [],
+        owned: true
       };
   
       const items: Item[] = 
@@ -71,7 +72,8 @@ describe('Redux - Items', () =>
       const list: List = {
         id: 0,
         name: 'redux',
-        items: []
+        items: [],
+        owned: true
       };
   
       const items: Item[] = 
@@ -120,7 +122,8 @@ describe('Redux - Items', () =>
       const list: List = {
         id: 0,
         name: 'redux',
-        items: []
+        items: [],
+        owned: true
       };
 
       const items: Item[] = 
@@ -157,7 +160,8 @@ describe('Redux - Items', () =>
       this.list = {
         id: 0,
         name: 'redux',
-        items: []
+        items: [],
+        owned: true
       };
   
       this.items = 
