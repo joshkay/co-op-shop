@@ -3,19 +3,15 @@ import React, { Component } from 'react';
 import { withStyles, WithStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { List } from '../../store/lists/types';
 import NewListForm from './NewListForm';
+import ShoppingListItem from './ShoppingListItem';
 import { 
   Typography, 
   List as MuiList,
   ListItem,
-  ListItemText,
   Paper,
   Grid,
-  ListItemSecondaryAction,
-  Checkbox,
-  IconButton,
   Button
 } from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
 import { Item, ItemState, ItemUpdates } from '../../store/items/types';
 import { Redirect } from 'react-router';
 
@@ -74,9 +70,8 @@ class ShoppingList extends Component<Props, State>
     };
 
     this.handleNewListVisibility = this.handleNewListVisibility.bind(this);
+    this.handleNewListCancel = this.handleNewListCancel.bind(this);
     this.handleAddItem = this.handleAddItem.bind(this);
-    this.handleDeleteItem = this.handleDeleteItem.bind(this);
-    this.handleUpdateItemPurchased = this.handleUpdateItemPurchased.bind(this);
   }
 
   componentDidMount()
@@ -84,8 +79,7 @@ class ShoppingList extends Component<Props, State>
     const { fetchItems, 
       fetchListWithItems, 
       list, 
-      listId,
-      startViewingList } = this.props;
+      listId } = this.props;
 
     if (list != undefined)
     {
@@ -116,13 +110,13 @@ class ShoppingList extends Component<Props, State>
       });
     }
 
-    if (this.state.initialFetch && this.props.isFetching != oldProps.isFetching)
+    if (this.state.initialFetch && oldProps.isFetching && !this.props.isFetching)
     {
       if (this.props.list !== undefined)
       {
         this.props.startViewingList(this.props.list);
       }
-      
+
       this.setState({
         initialFetch: false
       });
@@ -136,30 +130,18 @@ class ShoppingList extends Component<Props, State>
     });
   }
 
+  handleNewListCancel()
+  {
+    this.setState({
+      showNewList: false
+    });
+  }
+
   handleAddItem(name: string)
   {
     if (this.props.list)
     {
       this.props.addItem(this.props.list, name);
-    }
-  }
-
-  handleDeleteItem(item: Item)
-  {
-    if (this.props.list)
-    {
-      this.props.deleteItem(this.props.list, item);
-    }
-  }
-
-  handleUpdateItemPurchased(e: any, item: Item)
-  {
-    if (this.props.list)
-    {
-      const purchased = e.target.checked;
-      this.props.updateItem(this.props.list, item, {
-        purchased
-      });
     }
   }
 
@@ -173,25 +155,29 @@ class ShoppingList extends Component<Props, State>
       return (<Redirect to='/lists' />)
     }
 
+    if (items)
+    {
+      items.sort((a, b) =>
+      {
+        //const nameA = a.item.name.toLowerCase();
+        //const nameB = b.item.name.toLowerCase();
+        if (a.item.purchased && !b.item.purchased) { return 1; }
+        if (!a.item.purchased && b.item.purchased) { return -1; }
+        if (a.item.createdAt != undefined && b.item.createdAt != undefined)
+        {
+          if (a.item.createdAt > b.item.createdAt) { return -1; }
+          if (a.item.createdAt < b.item.createdAt) { return 1; }
+        }
+        return 0;
+      });
+    }
+
+    const { addItem, updateItem, deleteItem } = this.props;
     const listItems = items ? items.map((item, index) =>
     (
-      <ListItem key={index}>
-        <Checkbox
-          onChange={(e) => this.handleUpdateItemPurchased(e, item.item)}
-          checked={item.item.purchased}
-          tabIndex={-1}
-          disableRipple
-        />
-        <ListItemText
-          primary={item.item.name}
-        />
-        <ListItemSecondaryAction>
-          <IconButton onClick={(e) => this.handleDeleteItem(item.item)} 
-            aria-label="Delete">
-            <Delete  />
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
+      <ShoppingListItem key={index} item={item.item} list={list}
+        addItem={addItem} updateItem={updateItem} deleteItem={deleteItem} 
+      />
     )) : null;
 
     const addButton = !showNewList ? (
@@ -203,7 +189,8 @@ class ShoppingList extends Component<Props, State>
 
     const addItemListItem = showNewList ? (
       <ListItem>
-        <NewListForm addList={this.handleAddItem} />
+        <NewListForm addList={this.handleAddItem} cancel={this.handleNewListCancel} 
+          form="NewList" multiline={true} />
       </ListItem>
     ) : null;
 

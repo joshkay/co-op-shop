@@ -10,7 +10,7 @@ describe('Page - Lists', () =>
     
   });
 
-  context('stubbed POST /api/lists', () =>
+  context.only('stubbed POST /api/lists', () =>
   {
     beforeEach(() =>
     {
@@ -87,6 +87,8 @@ describe('Page - Lists', () =>
         .type(this.newListName);
 
       cy.get('[data-cy=newListSubmit]').click();
+
+      cy.wait(1000);
 
       cy.get('[data-cy=userOwnedLists] ul').children()
         .should('have.length', 1)

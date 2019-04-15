@@ -36,7 +36,6 @@ class ItemController
   async create(req: Request, res: Response)
   {
     let { name } = req.body;
-    console.log(name);
     const list = res.locals.list;
 
     let item = new Item();

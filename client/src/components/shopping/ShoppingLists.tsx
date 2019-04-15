@@ -36,7 +36,7 @@ class ShoppingLists extends Component<Props>
   render()
   {
     const { classes, lists, isAdding, 
-      addList,  error
+      addList, error
     } = this.props;
 
     return (

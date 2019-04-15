@@ -5,7 +5,7 @@ import { required } from '../../forms/validations';
 import { ListItemSecondaryAction, IconButton } from '@material-ui/core';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import {
-  Add, Clear
+  Save, Clear
 } from '@material-ui/icons';
 
 const styles = createStyles({
@@ -28,13 +28,12 @@ interface StylesProps extends WithStyles<typeof styles> {}
 interface Props 
 {
   cancel(): void;
-  addList(name: string): void;
-  multiline: boolean;
+  saveList(name: string): void;
 }
 
 type AllProps = Props & StylesProps & InjectedFormProps<{}, Props>;
 
-class NewListForm extends Component<AllProps> 
+class EditListForm extends Component<AllProps> 
 {
   constructor(props: AllProps)
   {
@@ -45,26 +44,26 @@ class NewListForm extends Component<AllProps>
 
   handleSubmit(values: any)
   {
-    this.props.addList(values.listName);
+    this.props.saveList(values.listName);
   }
 
   render()
   {
-    const { classes, handleSubmit, submitting, multiline } = this.props;
+    const { classes, handleSubmit, submitting } = this.props;
 
     return (
       <form className={classes.root} onSubmit={handleSubmit(this.handleSubmit)}>
-        <IconButton aria-label="Submit" data-cy="newListCancel" className={classes.clearButton}
+        <IconButton aria-label="Submit" data-cy="editListCancel" className={classes.clearButton}
           disabled={submitting} onClick={this.props.cancel}>
           <Clear fontSize="default" />
         </IconButton>
         <Field className={classes.nameField} name="listName" id="listName" autoFocus autoComplete='nope'
           component={TextField} label="Name" validate={[required]} margin="none"
-          data-cy="listName" multiline={multiline} />
+          data-cy="listName" multiline={true} />
         <ListItemSecondaryAction>
-          <IconButton aria-label="Submit" data-cy="newListSubmit"
+          <IconButton aria-label="Submit" data-cy="editListSubmit"
             type="submit" color="primary" disabled={submitting}>
-            <Add fontSize="default" />
+            <Save fontSize="default" />
           </IconButton>
         </ListItemSecondaryAction>
       </form>
@@ -72,4 +71,4 @@ class NewListForm extends Component<AllProps>
   }
 }
 
-export default reduxForm<{}, Props>({})(withStyles(styles)(NewListForm));
+export default reduxForm<{}, Props>({})(withStyles(styles)(EditListForm));

@@ -55,12 +55,20 @@ class ShoppingListsGroup extends Component<Props, State>
     };
 
     this.handleNewListVisibility = this.handleNewListVisibility.bind(this);
+    this.handleNewListCancel = this.handleNewListCancel.bind(this);
   }
 
   handleNewListVisibility()
   {
     this.setState({
       showNewList: true
+    });
+  }
+
+  handleNewListCancel()
+  {
+    this.setState({
+      showNewList: false
     });
   }
 
@@ -100,7 +108,8 @@ class ShoppingListsGroup extends Component<Props, State>
 
     const addListListItem = showNewList ? (
       <ListItem>
-        <NewListForm addList={addList} />
+        <NewListForm addList={addList} cancel={this.handleNewListCancel} 
+          form="NewItem" multiline={false} />
       </ListItem>
     ) : null;
 

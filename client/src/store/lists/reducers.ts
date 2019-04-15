@@ -86,6 +86,7 @@ export const listsReducer = (
     case REQUEST_ADD_LIST_SUCCESS:
       return {
         ...state,
+        error: null,
         isAdding: false,
         lists: {
           ...state.lists, 

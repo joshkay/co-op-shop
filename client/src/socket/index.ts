@@ -11,7 +11,6 @@ export const initializeSocket = () =>
     // dispatch all item events
   socket.on(ITEM_EVENT, (payload: any) =>
   {
-    console.log(ITEM_EVENT);
     store.dispatch(payload);
   });
 
@@ -36,13 +35,11 @@ export const connectSocket = () =>
 
 export const joinList = (id: number) =>
 {
-  console.log(JOIN_LIST);
   socket.emit(JOIN_LIST, id);
 }
 
 export const leaveList = (id: number) =>
 {
-  console.log(LEAVE_LIST);
   socket.emit(LEAVE_LIST, id);
 }
 
