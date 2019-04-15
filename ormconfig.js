@@ -1,15 +1,15 @@
-const isProduction = () =>
-{
-   return process.env.NODE_ENV === 'production';
-}
+const useBuild = () => (
+   process.env.NODE_ENV === 'production' ||
+   process.env.NODE_ENV === 'testing'
+)
 
-const getSettingByEnvironemnt = (prod, dev) =>
+const getSettingByEnvironemnt = (build, src) =>
 {
-   if (isProduction())
+   if (useBuild())
    {
-      return prod;
+      return build;
    }
-   return dev;
+   return src;
 }
 
 const common = {
@@ -39,7 +39,7 @@ const common = {
    ],
 }
 
-const config = isProduction() ?
+const config = useBuild() ?
 {
    "name": "default",
    "migrations": [

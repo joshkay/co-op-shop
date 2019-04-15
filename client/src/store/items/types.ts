@@ -96,7 +96,6 @@ interface RequestUpdateItemAction
 interface RequestUpdateItemSuccessAction
 {
   type: typeof REQUEST_UPDATE_ITEM_SUCCESS;
-  list: List;
   item: Item;
 }
 

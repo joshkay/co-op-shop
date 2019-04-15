@@ -12,7 +12,7 @@ export interface ListsState
 
 export interface List
 {
-  isViewing: boolean;
+  isViewing?: boolean;
   id: number;
   name: string;
   items: number[];
