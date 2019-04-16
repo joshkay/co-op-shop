@@ -80,6 +80,12 @@ All passwords are **test**
 
 ## Installation
 
+**Setup**
+
+- Run `npm install` in the root directory.
+- Run `npm install` in the client directory.
+- Create a postgres database named `co-op-shop`.
+
 To run the backend locally run `npm run dev` in the root directory.
 - Visit the site at http://localhost:3000.
 
